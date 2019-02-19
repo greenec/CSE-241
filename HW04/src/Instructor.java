@@ -16,6 +16,7 @@ public class Instructor
 
     public String getId()
     {
-        return this.Id;
+        // pad the ID with leading zeros
+        return String.format("%05d", Integer.parseInt(this.Id));
     }
 }
