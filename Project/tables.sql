@@ -38,14 +38,9 @@ CREATE TABLE productLine (
 CREATE TABLE lot (
 	lotId NUMBER PRIMARY KEY,
 	supplierId NUMBER,
-	productLineId NUMBER,
 	
 	FOREIGN KEY (supplierId)
 		REFERENCES supplier(supplierId)
-		ON DELETE SET NULL,
-	
-	FOREIGN KEY (productLineId)
-		REFERENCES productLine(productLineId)
 		ON DELETE SET NULL
 );
 
@@ -81,11 +76,11 @@ CREATE TABLE ships (
 	
 	FOREIGN KEY (shipmentId)
         REFERENCES shipment(shipmentId)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 		
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE receives (
@@ -94,11 +89,11 @@ CREATE TABLE receives (
 	
 	FOREIGN KEY (shipmentId)
         REFERENCES shipment(shipmentId)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 		
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE contains (
@@ -109,11 +104,11 @@ CREATE TABLE contains (
 
 	FOREIGN KEY (lotId)
         REFERENCES lot(lotId)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 		
 	FOREIGN KEY (shipmentId)
         REFERENCES shipment(shipmentId)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE madeFrom (
