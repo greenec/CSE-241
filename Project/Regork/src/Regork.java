@@ -78,31 +78,10 @@ public class Regork
             break;
         }
 
-        // loop until there is a valid instructor ID entered
         System.out.println("Enter the ID for the product you seek.");
 
-        int id;
-        while(true)
-        {
-            System.out.print("Please enter an integer between 0 and 9999: ");
-            String sId = sc.nextLine();
-
-            // make sure that the ID is a valid integer
-            try
-            {
-                id = Integer.parseInt(sId);
-            }
-            catch (NumberFormatException e)
-            {
-                continue;
-            }
-
-            // make sure that the ID is in range
-            if(id >= 0 && id <= 9999)
-            {
-                break;
-            }
-        }
+        // loop until there is a valid instructor ID entered
+        int id = Console.GetInt("Please enter an integer between 0 and 9999: ", 0, 9999);
 
         // attempt to retrieve the product with the given ID
         Product product = Product.GetById(conn, id);
