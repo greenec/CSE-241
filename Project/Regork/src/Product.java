@@ -16,7 +16,6 @@ public class Product
         this.Price = price;
     }
 
-    // TODO: get formatted product Id (String)
     public int GetProductId()
     {
         return this.ProductId;
@@ -32,7 +31,11 @@ public class Product
         return this.Price;
     }
 
-    // TODO: get formatted price (String)
+    public String GetFormattedPrice()
+	{
+		return String.format("%.2f", this.Price);
+	}
+
     public void SetPrice(double price)
     {
         this.Price = price;

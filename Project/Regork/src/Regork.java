@@ -73,7 +73,7 @@ public class Regork
             System.out.println("Here is a list of all matching IDs");
             for (Product product : products)
             {
-                System.out.println("    #" + product.GetProductId() + " " + product.GetName());
+                System.out.println("    #" + String.format("%-4s", product.GetProductId()) + " " + product.GetName());
             }
             break;
         }
@@ -113,7 +113,7 @@ public class Regork
         else
         {
             System.out.println();
-            System.out.println("Product #" + product.GetProductId() + ": " + product.GetName() + " ($" + product.GetPrice() + ")");
+            System.out.println("Product #" + product.GetProductId() + ": " + product.GetName() + " ($" + product.GetFormattedPrice() + ")");
         }
 
         // close the connection before exiting
