@@ -1,6 +1,6 @@
 
-HW04/\.idea/
-
 *.class
 
-Project/Regork/\.idea/
+workspace.xml
+usage.statistics.xml
+tasks.xml
