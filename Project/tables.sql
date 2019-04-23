@@ -1,4 +1,6 @@
-DROP TABLE sells;
+DROP TABLE manufactures;
+DROP TABLE ingredients;
+DROP TABLE offers;
 DROP TABLE madeFrom;
 DROP TABLE contains;
 DROP TABLE receives;
@@ -6,7 +8,7 @@ DROP TABLE ships;
 DROP TABLE shipment;
 DROP TABLE supplierPhone;
 DROP TABLE supplies;
-DROP TABLE lot;
+DROP TABLE batch;
 DROP TABLE supplier;
 DROP TABLE productLine;
 
@@ -35,9 +37,23 @@ CREATE TABLE productLine (
 	price DECIMAL (10, 4)
 );
 
-CREATE TABLE lot (
-	lotId NUMBER PRIMARY KEY,
+CREATE TABLE ingredients (
+	productId NUMBER,
+	componentId NUMBER,
+	
+	FOREIGN KEY (productId)
+		REFERENCES productLine(productId)
+		ON DELETE CASCADE,
+		
+	FOREIGN KEY (componentId)
+		REFERENCES productLine(productId)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE batch (
+	batchId NUMBER PRIMARY KEY,
 	supplierId NUMBER,
+	processingDate DATE,
 	
 	FOREIGN KEY (supplierId)
 		REFERENCES supplier(supplierId)
@@ -49,6 +65,7 @@ CREATE TABLE shipment (
     unitPrice DECIMAL(10, 4) NOT NULL,
     quantity NUMBER,
     supplierId NUMBER,
+    shipmentDate DATE,
 	
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
@@ -86,6 +103,7 @@ CREATE TABLE ships (
 CREATE TABLE receives (
 	shipmentId NUMBER PRIMARY KEY,
 	supplierId NUMBER,
+	quantity NUMBER,
 	
 	FOREIGN KEY (shipmentId)
         REFERENCES shipment(shipmentId)
@@ -126,7 +144,20 @@ CREATE TABLE madeFrom (
         ON DELETE SET NULL
 );
 
-CREATE TABLE sells (
+CREATE TABLE manufactures (
+	batchId NUMBER,
+	supplierId NUMBER,
+	
+	FOREIGN KEY (batchId)
+		REFERENCES batch(batchId)
+		ON DELETE SET NULL,
+	
+	FOREIGN KEY (supplierId)
+		REFERENCES supplier(supplierId)
+		ON DELETE SET NULL
+);
+
+CREATE TABLE offers (
 	supplierId NUMBER,
 	productLineId NUMBER,
 	salePrice DECIMAL (10, 4),
