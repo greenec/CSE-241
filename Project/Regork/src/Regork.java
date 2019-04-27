@@ -17,7 +17,7 @@ public class Regork
         }
         catch (ClassNotFoundException e)
         {
-            System.out.println("Oracle driver not found, exiting with status code 1.");
+            Console.WriteLine("Oracle driver not found, exiting with status code 1.", "red");
             System.exit(1);
         }
 
@@ -25,10 +25,10 @@ public class Regork
         Connection conn;
         while(true)
         {
-            System.out.print("enter Oracle user id: ");
+            Console.Write("enter Oracle user id: ", "cyan");
             String userId = sc.nextLine();
 
-            System.out.print("enter Oracle password for " + userId + ": ");
+            Console.Write("enter Oracle password for " + userId + ": ", "cyan");
             String password = sc.nextLine();
 
             try
@@ -38,8 +38,8 @@ public class Regork
             }
             catch (Exception e)
             {
-                System.out.println("An error occurred while connecting to the database.");
-                System.out.println("The username or password may be incorrect, or the database cannot be reached. Please try again.");
+                Console.WriteLine("An error occurred while connecting to the database.", "red");
+                Console.WriteLine("The username or password may be incorrect, or the database cannot be reached. Please try again.", "red");
             }
         }
 
@@ -50,7 +50,7 @@ public class Regork
             String search;
             while(true)
             {
-                System.out.print("Please enter a product name for the search: ");
+                Console.Write("Please enter a product name for the search: ", "cyan");
                 search = sc.nextLine();
 
                 if(search.length() > 0)
@@ -58,41 +58,41 @@ public class Regork
                     break;
                 }
 
-                System.out.println("Your search cannot be empty.");
+                Console.WriteLine("Your search cannot be empty.", "yellow");
             }
 
             // search for instructors and loop if no results found
             ArrayList<Product> products = Product.FindByName(conn, search);
             if(products.isEmpty())
             {
-                System.out.println("No results found. Please try again.");
+                Console.WriteLine("No results found. Please try again.", "yellow");
                 continue;
             }
 
             // print out the instructors and break out of the loop
-            System.out.println("Here is a list of all matching IDs");
+            Console.WriteLine("Here is a list of all matching products:");
             for (Product product : products)
             {
-                System.out.println("    #" + String.format("%-4s", product.GetProductId()) + " " + product.GetName());
+                Console.WriteLine("    #" + String.format("%-4s", product.GetProductId()) + " " + product.GetName());
             }
             break;
         }
 
-        System.out.println("Enter the ID for the product you seek.");
+        Console.WriteLine("Enter the ID for the product you seek.", "cyan");
 
         // loop until there is a valid instructor ID entered
-        int id = Console.GetInt("Please enter an integer between 0 and 9999: ", 0, 9999);
+        int id = Console.GetInt("Please enter an integer between 0 and 9999: ", "cyan", 0, 9999);
 
         // attempt to retrieve the product with the given ID
         Product product = Product.GetById(conn, id);
         if(product == null)
         {
-            System.out.println("There were no products found with that ID.");
+            Console.WriteLine("There are no products found with that ID.", "yellow");
         }
         else
         {
-            System.out.println();
-            System.out.println("Product #" + product.GetProductId() + ": " + product.GetName() + " ($" + product.GetFormattedPrice() + ")");
+            Console.WriteLine();
+            Console.WriteLine("Product #" + product.GetProductId() + ": " + product.GetName() + " ($" + product.GetFormattedPrice() + ")");
         }
 
         // close the connection before exiting
@@ -102,7 +102,7 @@ public class Regork
         }
         catch (Exception e)
         {
-            System.out.println("There was an error in trying to close the database connection.");
+            Console.WriteLine("There was an error in trying to close the database connection.", "red");
         }
     }
 }

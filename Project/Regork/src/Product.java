@@ -67,7 +67,7 @@ public class Product
         }
         catch (Exception e)
         {
-            System.out.println("An error occurred while trying to retrieve the product. Please try again");
+            Console.WriteLine("An error occurred while trying to retrieve the product. Please try again", "red");
         }
 
         return null;
@@ -98,7 +98,7 @@ public class Product
         }
         catch (Exception e)
         {
-            System.out.println("An error occurred while searching for products. Please try again.");
+            Console.WriteLine("An error occurred while searching for products. Please try again.", "red");
         }
 
         return products;
