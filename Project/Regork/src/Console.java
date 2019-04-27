@@ -56,6 +56,9 @@ public class Console
 
 	public static void Write(String message, String color)
 	{
+		// clear formatting after each message
+		message += "\033[0m";
+
 		switch(color)
 		{
 			case "red":
