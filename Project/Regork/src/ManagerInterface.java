@@ -18,13 +18,10 @@ public class ManagerInterface
 
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
-			if (action == 0)
-			{
-				return;
-			}
-
 			switch (action)
 			{
+				case 0:
+					return;
 				case 1:
 					ProductSearch(conn);
 					break;
@@ -43,19 +40,7 @@ public class ManagerInterface
 		while (true)
 		{
 			// prompt the user for a product name to find
-			String search;
-			while (true)
-			{
-				Console.Write("Please enter a product name for the search: ", "blue");
-				search = Console.ReadLine();
-
-				if (search.length() > 0)
-				{
-					break;
-				}
-
-				Console.WriteLine("Your search cannot be empty.", "yellow");
-			}
+			String search = Console.GetString("Please enter a product name for the search: ", "blue");
 
 			// search for instructors and loop if no results found
 			ArrayList<Product> products = Product.FindByName(conn, search);
@@ -75,8 +60,6 @@ public class ManagerInterface
 		}
 
 		Console.WriteLine("Enter the ID for the product you seek.", "blue");
-
-		// loop until there is a valid instructor ID entered
 		int id = Console.GetInt("Please enter an integer between 0 and 9999: ", "blue", 0, 9999);
 
 		// attempt to retrieve the product with the given ID
@@ -131,8 +114,7 @@ public class ManagerInterface
 				Console.WriteLine("Product changes have been reverted.", "yellow");
 				return;
 			}
-
-			if (action == 1)
+			else if (action == 1)
 			{
 				String newName = Console.GetString("Please enter a new product name: ", "blue");
 				product.SetName(newName);

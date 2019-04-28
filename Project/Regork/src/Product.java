@@ -6,8 +6,13 @@ import java.util.ArrayList;
 public class Product
 {
     private int ProductId;
-    private String Name;
-    private double Price;
+    private String Name = "";
+    private double Price = 0;
+
+    public Product(int productId)
+    {
+        this.ProductId = productId;
+    }
 
     public Product(int productId, String productName, double price)
     {
@@ -82,7 +87,7 @@ public class Product
 
     public static Product GetById(Connection conn, int productId)
     {
-        Product product = new Product(productId, "", 0);
+        Product product = new Product(productId);
 
         boolean success = product.Refresh(conn);
         if (success)

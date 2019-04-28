@@ -169,5 +169,10 @@ public class Console
 					System.out.print("\033[0m" + message);
 			}
 		}
+		else
+		{
+			// invalid background color, print without formatting
+			System.out.print("\033[0m" + message);
+		}
 	}
 }
