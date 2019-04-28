@@ -2,7 +2,34 @@ import java.util.Scanner;
 
 public class Console
 {
+	private enum Background { Light, Dark };
+
 	private static Scanner sc = new Scanner(System.in);
+	private static Background BackgroundColor = Background.Dark;
+
+	public static void Initialize()
+	{
+		WriteLine("Please describe your terminal so that colored text can be displayed clearly.");
+		while(true)
+		{
+			Write("Is your terminal background 'light' or 'dark'? ");
+			String background = sc.nextLine().toLowerCase().trim();
+
+			if (background.equals("light"))
+			{
+				BackgroundColor = Background.Light;
+				WriteLine("Thanks! Output will be optimized for terminals with a 'light' background.", "green");
+				return;
+			}
+
+			if (background.equals("dark"))
+			{
+				BackgroundColor = Background.Dark;
+				WriteLine("Thanks! Output will be optimized for terminals with a 'dark' background.", "green");
+				return;
+			}
+		}
+	}
 
 	public static int GetInt(String prompt, String color, int min, int max)
 	{
@@ -11,7 +38,7 @@ public class Console
 		while(true)
 		{
 			Console.Write(prompt, color);
-			String sId = sc.nextLine();
+			String sId = sc.nextLine().trim();
 
 			// make sure that the ID is a valid integer
 			try
@@ -59,22 +86,43 @@ public class Console
 		// clear formatting after each message
 		message += "\033[0m";
 
-		switch(color)
+		if (BackgroundColor == Background.Dark)
 		{
-			case "red":
-				System.out.print("\033[0;31m" + message);
-				break;
-			case "green":
-				System.out.print("\033[0;32m" + message);
-				break;
-			case "cyan":
-				System.out.print("\033[0;36m" + message);
-				break;
-			case "yellow":
-				System.out.print("\033[0;33m" + message);
-				break;
-			default:
-				System.out.print("\033[0m" + message);
+			switch (color) {
+				case "red":
+					System.out.print("\033[1;31m" + message);
+					break;
+				case "green":
+					System.out.print("\033[1;32m" + message);
+					break;
+				case "yellow":
+					System.out.print("\033[1;33m" + message);
+					break;
+				case "blue":
+					System.out.print("\033[1;36m" + message);
+					break;
+				default:
+					System.out.print("\033[0m" + message);
+			}
+		}
+		else if (BackgroundColor == Background.Light)
+		{
+			switch (color) {
+				case "red":
+					System.out.print("\033[0;31m" + message);
+					break;
+				case "green":
+					System.out.print("\033[1;32m" + message);
+					break;
+				case "yellow":
+					System.out.print("\033[1;33m" + message);
+					break;
+				case "blue":
+					System.out.print("\033[0;34m" + message);
+					break;
+				default:
+					System.out.print("\033[0m" + message);
+			}
 		}
 	}
 }

@@ -1,108 +1,87 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Regork
 {
-    public static void main(String[] args)
-    {
-        Scanner sc = new Scanner(System.in);
+	public static void main(String[] args)
+	{
+		// prompt the user to get information about their terminal
+		Console.Initialize();
 
-        // check for the Oracle DB driver
-        try
-        {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            Console.WriteLine("Oracle driver not found, exiting with status code 1.", "red");
-            System.exit(1);
-        }
+		Scanner sc = new Scanner(System.in);
 
-        // establish the database connection by prompting the user for credentials
-        Connection conn;
-        while(true)
-        {
-            Console.Write("enter Oracle user id: ", "cyan");
-            String userId = sc.nextLine();
+		// check for the Oracle DB driver
+		try
+		{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e)
+		{
+			Console.WriteLine("Oracle driver not found, exiting with status code 1.", "red");
+			System.exit(1);
+		}
 
-            Console.Write("enter Oracle password for " + userId + ": ", "cyan");
-            String password = sc.nextLine();
+		// establish the database connection by prompting the user for credentials
+		Connection conn;
+		while (true)
+		{
+			Console.Write("enter Oracle user id: ", "blue");
+			String userId = sc.nextLine();
 
-            try
-            {
-                conn = DriverManager.getConnection("jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userId, password);
-                break;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("An error occurred while connecting to the database.", "red");
-                Console.WriteLine("The username or password may be incorrect, or the database cannot be reached. Please try again.", "red");
-            }
-        }
+			Console.Write("enter Oracle password for " + userId + ": ", "blue");
+			String password = sc.nextLine();
 
-        // loop until there are successful product search results
-        while(true)
-        {
-            // prompt the user for a product name to find
-            String search;
-            while(true)
-            {
-                Console.Write("Please enter a product name for the search: ", "cyan");
-                search = sc.nextLine();
+			try
+			{
+				conn = DriverManager.getConnection("jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userId, password);
+				break;
+			} catch (Exception e)
+			{
+				Console.WriteLine("An error occurred while connecting to the database.", "red");
+				Console.WriteLine("The username or password may be incorrect, or the database cannot be reached. Please try again.", "red");
+			}
+		}
 
-                if(search.length() > 0)
-                {
-                    break;
-                }
+		// prompt the user for a product name to find
+		String search;
+		Console.WriteLine("Welcome to Regork!", "green");
 
-                Console.WriteLine("Your search cannot be empty.", "yellow");
-            }
+		while (true)
+		{
+			Console.WriteLine("* * * * * * * *");
+			Console.WriteLine("*  MAIN MENU  *");
+			Console.WriteLine("* * * * * * * *");
 
-            // search for instructors and loop if no results found
-            ArrayList<Product> products = Product.FindByName(conn, search);
-            if(products.isEmpty())
-            {
-                Console.WriteLine("No results found. Please try again.", "yellow");
-                continue;
-            }
+			Console.WriteLine("Please enter the number next to your role from the list below: ");
+			Console.WriteLine("\t1) Manager");
 
-            // print out the instructors and break out of the loop
-            Console.WriteLine("Here is a list of all matching products:");
-            for (Product product : products)
-            {
-                Console.WriteLine("    #" + String.format("%-4s", product.GetProductId()) + " " + product.GetName());
-            }
-            break;
-        }
+			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 3);
 
-        Console.WriteLine("Enter the ID for the product you seek.", "cyan");
+			if (role == 0)
+			{
+				break;
+			}
 
-        // loop until there is a valid instructor ID entered
-        int id = Console.GetInt("Please enter an integer between 0 and 9999: ", "cyan", 0, 9999);
+			switch (role)
+			{
+				case 1:
+					ManagerInterface.Run(conn);
+					break;
+				default:
+					Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
+					break;
+			}
+		}
 
-        // attempt to retrieve the product with the given ID
-        Product product = Product.GetById(conn, id);
-        if(product == null)
-        {
-            Console.WriteLine("There are no products found with that ID.", "yellow");
-        }
-        else
-        {
-            Console.WriteLine();
-            Console.WriteLine("Product #" + product.GetProductId() + ": " + product.GetName() + " ($" + product.GetFormattedPrice() + ")");
-        }
-
-        // close the connection before exiting
-        try
-        {
-            conn.close();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("There was an error in trying to close the database connection.", "red");
-        }
-    }
+		// close the connection before exiting
+		try
+		{
+			conn.close();
+			Console.WriteLine("Thanks for using Regork!", "green");
+		} catch (Exception e)
+		{
+			Console.WriteLine("There was an error in trying to close the database connection.", "red");
+		}
+	}
 }
