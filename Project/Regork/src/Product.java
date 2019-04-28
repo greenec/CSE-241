@@ -46,12 +46,17 @@ public class Product
         this.Name = name;
     }
 
-    public static Product GetById(Connection conn, int productId)
+    public String toString()
+    {
+        return "Product #" + this.GetProductId() + ": " + this.GetName() + " ($" + this.GetFormattedPrice() + ")";
+    }
+
+    public boolean Refresh(Connection conn)
     {
         try
         {
             PreparedStatement stmt = conn.prepareStatement("SELECT productName, price FROM productLine WHERE productLineId = ?");
-            stmt.setInt(1, productId);
+            stmt.setInt(1, this.GetProductId());
             ResultSet res = stmt.executeQuery();
 
             if (res.next())
@@ -59,18 +64,35 @@ public class Product
                 String name = res.getString("PRODUCTNAME");
                 double price = res.getDouble("PRICE");
 
-                Product product = new Product(productId, name, price);
+                this.SetName(name);
+                this.SetPrice(price);
 
                 stmt.close();
-                return product;
+
+                return true;
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine("An error occurred while trying to retrieve the product. Please try again", "red");
+            Console.WriteLine("An error occurred while trying to refresh the product. Please try again", "red");
         }
 
-        return null;
+        return false;
+    }
+
+    public static Product GetById(Connection conn, int productId)
+    {
+        Product product = new Product(productId, "", 0);
+
+        boolean success = product.Refresh(conn);
+        if (success)
+        {
+            return product;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public static ArrayList<Product> FindByName(Connection conn, String search)
@@ -102,5 +124,49 @@ public class Product
         }
 
         return products;
+    }
+
+    public boolean Save(Connection conn)
+    {
+        try
+        {
+            String query = "UPDATE productLine SET productName = ?, price = ? WHERE productLineId = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, this.GetName());
+            stmt.setDouble(2, this.GetPrice());
+            stmt.setInt(3, this.GetProductId());
+
+            int rowsAffected = stmt.executeUpdate();
+            stmt.close();
+
+            conn.commit();
+
+            if (rowsAffected == 0)
+            {
+                Console.WriteLine("An error occurred and no products were affected by this update.", "red");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        catch(Exception e)
+        {
+            try
+            {
+                conn.rollback();
+            }
+            catch (Exception rollbackException)
+            {
+                Console.WriteLine("An error occurred while attempting to revert changes.", "red");
+                return false;
+            }
+
+            Console.WriteLine("An error occurred while trying to save changes made to this product.", "red");
+            Console.WriteLine("The product has not been modified. Please try again.", "red");
+            return false;
+        }
     }
 }
