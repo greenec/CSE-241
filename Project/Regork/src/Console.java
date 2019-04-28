@@ -13,7 +13,7 @@ public class Console
 		while(true)
 		{
 			Write("Is your terminal background 'light' or 'dark'? ");
-			String background = sc.nextLine().toLowerCase().trim();
+			String background = Console.ReadLine().toLowerCase();
 
 			if (background.equals("light"))
 			{
@@ -31,33 +31,78 @@ public class Console
 		}
 	}
 
+	public static String ReadLine()
+	{
+		return sc.nextLine().trim();
+	}
+
+	public static String GetString(String prompt, String color)
+	{
+		String input = "";
+		while (input.length() == 0)
+		{
+			Console.Write(prompt, color);
+			input = Console.ReadLine();
+		}
+		return input;
+	}
+
 	public static int GetInt(String prompt, String color, int min, int max)
 	{
-		int id;
+		int out;
 
 		while(true)
 		{
 			Console.Write(prompt, color);
-			String sId = sc.nextLine().trim();
+			String sInput = Console.ReadLine();
 
-			// make sure that the ID is a valid integer
+			// make sure that the input is a valid integer
 			try
 			{
-				id = Integer.parseInt(sId);
+				out = Integer.parseInt(sInput);
 			}
 			catch (NumberFormatException e)
 			{
 				continue;
 			}
 
-			// make sure that the ID is in range
-			if(id >= min && id <= max)
+			// make sure that the input is in range
+			if(out >= min && out <= max)
 			{
 				break;
 			}
 		}
 
-		return id;
+		return out;
+	}
+
+	public static double GetDouble(String prompt, String color, double min, double max)
+	{
+		double out;
+
+		while(true)
+		{
+			Console.Write(prompt, color);
+			String sInput = Console.ReadLine();
+
+			// make sure that the input is a valid double
+			try
+			{
+				out = Double.parseDouble(sInput);
+			}
+			catch (NumberFormatException e)
+			{
+				continue;
+			}
+
+			// make sure that the double is in range
+			if(out >= min && out <= max)
+			{
+				break;
+			}
+		}
+
+		return out;
 	}
 
 	public static void WriteLine()

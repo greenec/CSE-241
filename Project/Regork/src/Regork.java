@@ -1,16 +1,12 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import java.util.Scanner;
-
 public class Regork
 {
 	public static void main(String[] args)
 	{
 		// prompt the user to get information about their terminal
 		Console.Initialize();
-
-		Scanner sc = new Scanner(System.in);
 
 		// check for the Oracle DB driver
 		try
@@ -27,14 +23,15 @@ public class Regork
 		while (true)
 		{
 			Console.Write("enter Oracle user id: ", "blue");
-			String userId = sc.nextLine();
+			String userId = Console.ReadLine();
 
 			Console.Write("enter Oracle password for " + userId + ": ", "blue");
-			String password = sc.nextLine();
+			String password = Console.ReadLine();
 
 			try
 			{
 				conn = DriverManager.getConnection("jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userId, password);
+				conn.setAutoCommit(false);
 				break;
 			} catch (Exception e)
 			{
@@ -43,8 +40,6 @@ public class Regork
 			}
 		}
 
-		// prompt the user for a product name to find
-		String search;
 		Console.WriteLine("Welcome to Regork!", "green");
 
 		while (true)
@@ -54,7 +49,7 @@ public class Regork
 			Console.WriteLine("* * * * * * * *");
 
 			Console.WriteLine("Please enter the number next to your role from the list below: ");
-			Console.WriteLine("\t1) Manager");
+			Console.WriteLine("\t1) Regork Product Manager");
 
 			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 3);
 
