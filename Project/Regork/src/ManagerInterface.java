@@ -16,7 +16,7 @@ public class ManagerInterface
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Manage Products");
 
-			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
+			int action = Console.GetInt("Please select an action, or enter 0 to exit: ", "blue", 0, 1);
 
 			switch (action)
 			{
@@ -34,7 +34,7 @@ public class ManagerInterface
 
 	private static void ProductSearch(Connection conn)
 	{
-		Console.WriteLine("Welcome to the product serach!");
+		Console.WriteLine("Welcome to the product search!");
 
 		// loop until there are successful product search results
 		while (true)
@@ -83,7 +83,7 @@ public class ManagerInterface
 				case 0:
 					return;
 				case 1:
-					Console.WriteLine(product.toString());
+					Console.WriteLine(product.toString(), "green");
 					break;
 				case 2:
 					UpdateProduct(conn, product);
