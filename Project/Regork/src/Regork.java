@@ -61,7 +61,7 @@ public class Regork
 			switch (role)
 			{
 				case 1:
-					ManagerInterface.Run(conn);
+					ProductManagerInterface.Run(conn);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");

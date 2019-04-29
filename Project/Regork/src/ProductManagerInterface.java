@@ -1,7 +1,7 @@
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class ManagerInterface
+public class ProductManagerInterface
 {
 	public static void Run(Connection conn)
 	{
