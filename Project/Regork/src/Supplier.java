@@ -71,7 +71,7 @@ public class Supplier
 
 		try
 		{
-			String query = "SELECT supplierName, streetName, streetNumber, city, state, zipCode FROM suppliers WHERE supplierId = ?";
+			String query = "SELECT supplierName, streetName, streetNumber, city, state, zipCode FROM supplier WHERE supplierId = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, this.GetSupplierId());
 			ResultSet res = stmt.executeQuery();
@@ -151,9 +151,9 @@ public class Supplier
 		try
 		{
 			String query =
-				"SELECT supplierId, supplierName, streetName, streetNumber, city, state, zipCode" +
-					"FROM suppliers " +
-					"WHERE INSTR(supplierName COLLATE BINARY_CI, ?) <> 0" +
+				"SELECT supplierId, supplierName, streetName, streetNumber, city, state, zipCode " +
+					"FROM supplier " +
+					"WHERE INSTR(supplierName COLLATE BINARY_CI, ?) <> 0 " +
 					"ORDER BY supplierId";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, search);
@@ -170,8 +170,6 @@ public class Supplier
 				int zipCode = res.getInt("ZIPCODE");
 
 				Supplier supplier = new Supplier(id, name, streetName, streetNumber, city, state, zipCode);
-				supplier.RefreshPhoneNumbers(conn);
-
 				suppliers.add(supplier);
 			}
 
@@ -189,7 +187,7 @@ public class Supplier
 	{
 		try
 		{
-			String query = "UPDATE suppliers SET supplierName = ?, streetName = ?, streetNumber = ?, city = ?, state = ?, zipCode = ? WHERE supplierId = ?";
+			String query = "UPDATE supplier SET supplierName = ?, streetName = ?, streetNumber = ?, city = ?, state = ?, zipCode = ? WHERE supplierId = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, this.GetName());
 			stmt.setString(2, this.StreetName);

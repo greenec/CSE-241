@@ -44,12 +44,13 @@ public class Regork
 
 		while (true)
 		{
-			Console.WriteLine("* * * * * * * *");
-			Console.WriteLine("*  MAIN MENU  *");
-			Console.WriteLine("* * * * * * * *");
+			Console.WriteLine("* * * * * * * * *");
+			Console.WriteLine("*   MAIN MENU   *");
+			Console.WriteLine("* * * * * * * * *");
 
 			Console.WriteLine("Please enter the number next to your role from the list below: ");
 			Console.WriteLine("\t1) Regork Product Manager");
+			Console.WriteLine("\t2) Supplier Relations Manager");
 
 			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 3);
 
@@ -62,6 +63,9 @@ public class Regork
 			{
 				case 1:
 					ProductManagerInterface.Run(conn);
+					break;
+				case 2:
+					SupplierRelationsManagerInterface.Run(conn);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");

@@ -5,13 +5,13 @@ public class ProductManagerInterface
 {
 	public static void Run(Connection conn)
 	{
-		Console.WriteLine("Welcome, manager!", "green");
+		Console.WriteLine("Welcome, product manager!", "green");
 
 		while (true)
 		{
-			Console.WriteLine("* * * * * * * * * * *");
-			Console.WriteLine("*  MANAGER'S  MENU  *");
-			Console.WriteLine("* * * * * * * * * * *");
+			Console.WriteLine("* * * * * * * * * * * * * * * *");
+			Console.WriteLine("*   PRODUCT MANAGEMENT MENU   *");
+			Console.WriteLine("* * * * * * * * * * * * * * * *");
 
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Manage Products");
