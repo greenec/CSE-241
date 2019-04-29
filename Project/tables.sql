@@ -30,6 +30,7 @@ CREATE TABLE supplierPhone (
         REFERENCES supplier(supplierId)
         ON DELETE CASCADE
 );
+CREATE INDEX supplierPhone_supplierId_idx ON supplierPhone (supplierId);
 
 CREATE TABLE productLine (
 	productLineId NUMBER PRIMARY KEY,
@@ -49,6 +50,8 @@ CREATE TABLE ingredients (
 		REFERENCES productLine(productId)
 		ON DELETE CASCADE
 );
+CREATE INDEX ingredients_productId_idx ON ingredients (productId);
+CREATE INDEX ingredients_componentId_idx_idx ON ingredients (componentId);
 
 CREATE TABLE batch (
 	batchId NUMBER PRIMARY KEY,
@@ -59,6 +62,7 @@ CREATE TABLE batch (
 		REFERENCES supplier(supplierId)
 		ON DELETE SET NULL
 );
+CREATE INDEX batch_supplierId_idx ON batch (supplierId);
 
 CREATE TABLE shipment (
     shipmentId NUMBER PRIMARY KEY,
@@ -71,6 +75,7 @@ CREATE TABLE shipment (
         REFERENCES supplier(supplierId)
         ON DELETE SET NULL
 );
+CREATE INDEX shipment_supplierId_idx ON shipment (supplierId);
 
 CREATE TABLE supplies (
 	supplierId NUMBER,
@@ -99,6 +104,7 @@ CREATE TABLE ships (
         REFERENCES supplier(supplierId)
         ON DELETE SET NULL
 );
+CREATE INDEX ships_supplierId_idx ON ships (supplierId);
 
 CREATE TABLE receives (
 	shipmentId NUMBER PRIMARY KEY,
@@ -113,6 +119,7 @@ CREATE TABLE receives (
         REFERENCES supplier(supplierId)
         ON DELETE SET NULL
 );
+CREATE INDEX receives_supplierId_idx ON receives (supplierId);
 
 CREATE TABLE contains (
 	shipmentId NUMBER,
