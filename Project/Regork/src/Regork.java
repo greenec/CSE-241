@@ -65,7 +65,7 @@ public class Regork
 					ProductManagerInterface.Run(conn);
 					break;
 				case 2:
-					SupplierRelationsManagerInterface.Run(conn);
+					SupplierRelationsInterface.Run(conn);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");

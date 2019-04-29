@@ -1,7 +1,7 @@
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class SupplierRelationsManagerInterface
+public class SupplierRelationsInterface
 {
 	public static void Run(Connection conn)
 	{
@@ -76,7 +76,7 @@ public class SupplierRelationsManagerInterface
 		while(true)
 		{
 			Console.WriteLine("Please select an action from the list below:");
-			Console.WriteLine("\t1) View Supplier Address");
+			Console.WriteLine("\t1) View Supplier's Address");
 			Console.WriteLine("\t2) List Supplier's Phone Numbers");
 
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
