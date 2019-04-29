@@ -47,6 +47,23 @@ public class Console
 		return input;
 	}
 
+	public static String GetString(String prompt, String color, int maxLength)
+	{
+		String input = "";
+		while (true)
+		{
+			input = GetString(prompt, color);
+
+			if (input.length() <= maxLength)
+			{
+				break;
+			}
+
+			WriteLine("Input should not be more than " + maxLength + " characters.", "yellow");
+		}
+		return input;
+	}
+
 	public static int GetInt(String prompt, String color, int min, int max)
 	{
 		int out;
