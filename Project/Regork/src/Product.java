@@ -17,8 +17,8 @@ public class Product
     public Product(int productId, String productName, double price)
     {
         this.ProductId = productId;
-        this.Name = productName;
-        this.Price = price;
+        SetName(productName);
+        SetPrice(price);
     }
 
     public int GetProductId()
@@ -58,6 +58,8 @@ public class Product
 
     public boolean Refresh(Connection conn)
     {
+        boolean bSuccess = false;
+
         try
         {
             PreparedStatement stmt = conn.prepareStatement("SELECT productName, price FROM productLine WHERE productLineId = ?");
@@ -72,17 +74,18 @@ public class Product
                 this.SetName(name);
                 this.SetPrice(price);
 
-                stmt.close();
-
-                return true;
+                bSuccess = true;
             }
+
+            stmt.close();
         }
         catch (Exception e)
         {
+            bSuccess = false;
             Console.WriteLine("An error occurred while trying to refresh the product. Please try again", "red");
         }
 
-        return false;
+        return bSuccess;
     }
 
     public static Product GetById(Connection conn, int productId)
