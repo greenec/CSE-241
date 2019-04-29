@@ -116,7 +116,7 @@ public class ProductManagerInterface
 			}
 			else if (action == 1)
 			{
-				String newName = Console.GetString("Please enter a new product name: ", "blue");
+				String newName = Console.GetString("Please enter a new product name: ", "blue", 50);
 				product.SetName(newName);
 
 				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(), "yellow");
