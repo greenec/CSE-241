@@ -30,7 +30,7 @@ public class SupplierRelationsInterface
 					Console.WriteLine("This interface has not been implemented yet!", "yellow");
 					break;
 				default:
-					Console.WriteLine("An unexpected error occurred. Returning to manager's menu.", "red");
+					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
 					break;
 			}
 		}

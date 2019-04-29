@@ -5,176 +5,237 @@ import java.util.ArrayList;
 
 public class Product
 {
-    private int ProductId;
-    private String Name = "";
-    private double Price = 0;
+	private int ProductId;
+	private String Name = "";
+	private double Price = 0;
 
-    public Product(int productId)
-    {
-        this.ProductId = productId;
-    }
+	public Product(int productId)
+	{
+		this.ProductId = productId;
+	}
 
-    public Product(int productId, String productName, double price)
-    {
-        this.ProductId = productId;
-        SetName(productName);
-        SetPrice(price);
-    }
+	public Product(int productId, String productName, double price)
+	{
+		this.ProductId = productId;
+		SetName(productName);
+		SetPrice(price);
+	}
 
-    public int GetProductId()
-    {
-        return this.ProductId;
-    }
+	public int GetProductId()
+	{
+		return this.ProductId;
+	}
 
-    public String GetName()
-    {
-        return this.Name;
-    }
+	public String GetName()
+	{
+		return this.Name;
+	}
 
-    public double GetPrice()
-    {
-        return this.Price;
-    }
+	public double GetPrice()
+	{
+		return this.Price;
+	}
 
-    public String GetFormattedPrice()
+	public String GetFormattedPrice()
 	{
 		return String.format("%.2f", this.Price);
 	}
 
-    public void SetPrice(double price)
-    {
-        this.Price = price;
-    }
+	public void SetPrice(double price)
+	{
+		this.Price = price;
+	}
 
-    public void SetName(String name)
-    {
-        this.Name = name;
-    }
+	public void SetName(String name)
+	{
+		this.Name = name;
+	}
 
-    public String toString()
-    {
-        return "Product #" + this.GetProductId() + ": " + this.GetName() + " ($" + this.GetFormattedPrice() + ")";
-    }
+	public String toString()
+	{
+		return toString(false, false);
+	}
 
-    public boolean Refresh(Connection conn)
-    {
-        boolean bSuccess = false;
+	public String toString(boolean formatId)
+	{
+		return toString(formatId, false);
+	}
 
-        try
-        {
-            PreparedStatement stmt = conn.prepareStatement("SELECT productName, price FROM productLine WHERE productLineId = ?");
-            stmt.setInt(1, this.GetProductId());
-            ResultSet res = stmt.executeQuery();
+	public String toString(boolean formatId, boolean showPrice)
+	{
+		String out = "#";
 
-            if (res.next())
-            {
-                String name = res.getString("PRODUCTNAME");
-                double price = res.getDouble("PRICE");
+		if (formatId)
+		{
+			out += String.format("%-4s", this.GetProductId());
+		}
+		else
+		{
+			out += this.GetProductId();
+		}
 
-                this.SetName(name);
-                this.SetPrice(price);
+		out += " " + this.GetName();
 
-                bSuccess = true;
-            }
+		if (showPrice)
+		{
+			out += " ($" + this.GetFormattedPrice() + ")";
+		}
 
-            stmt.close();
-        }
-        catch (Exception e)
-        {
-            bSuccess = false;
-            Console.WriteLine("An error occurred while trying to refresh the product. Please try again", "red");
-        }
+		return out;
+	}
 
-        return bSuccess;
-    }
+	public boolean Refresh(Connection conn)
+	{
+		boolean bSuccess = false;
 
-    public static Product GetById(Connection conn, int productId)
-    {
-        Product product = new Product(productId);
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement("SELECT productName, price FROM productLine WHERE productLineId = ?");
+			stmt.setInt(1, this.GetProductId());
+			ResultSet res = stmt.executeQuery();
 
-        boolean success = product.Refresh(conn);
-        if (success)
-        {
-            return product;
-        }
-        else
-        {
-            return null;
-        }
-    }
+			if (res.next())
+			{
+				String name = res.getString("PRODUCTNAME");
+				double price = res.getDouble("PRICE");
 
-    public static ArrayList<Product> FindByName(Connection conn, String search)
-    {
-        ArrayList<Product> products = new ArrayList<>();
+				this.SetName(name);
+				this.SetPrice(price);
 
-        try
-        {
-            String query = "SELECT productLineId, productName, price FROM productLine WHERE INSTR(productName COLLATE BINARY_CI, ?) <> 0 ORDER BY productLineId";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, search);
-            ResultSet res = stmt.executeQuery();
+				bSuccess = true;
+			}
 
-            while (res.next())
-            {
-                int id = res.getInt("PRODUCTLINEID");
-                String name = res.getString("PRODUCTNAME");
-                double price = res.getDouble("PRICE");
+			stmt.close();
+		}
+		catch (Exception e)
+		{
+			bSuccess = false;
+			Console.WriteLine("An error occurred while trying to refresh the product. Please try again", "red");
+		}
 
-                Product product = new Product(id, name, price);
-                products.add(product);
-            }
+		return bSuccess;
+	}
 
-            stmt.close();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("An error occurred while searching for products. Please try again.", "red");
-        }
+	public static Product GetById(Connection conn, int productId)
+	{
+		Product product = new Product(productId);
 
-        return products;
-    }
+		boolean success = product.Refresh(conn);
+		if (success)
+		{
+			return product;
+		} else
+		{
+			return null;
+		}
+	}
 
-    public boolean Save(Connection conn)
-    {
-        try
-        {
-            String query = "UPDATE productLine SET productName = ?, price = ? WHERE productLineId = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, this.GetName());
-            stmt.setDouble(2, this.GetPrice());
-            stmt.setInt(3, this.GetProductId());
+	public static ArrayList<Product> FindByName(Connection conn, String search)
+	{
+		ArrayList<Product> products = new ArrayList<>();
 
-            int rowsAffected = stmt.executeUpdate();
-            stmt.close();
+		try
+		{
+			String query = "SELECT productLineId, productName, price FROM productLine WHERE INSTR(productName COLLATE BINARY_CI, ?) <> 0 ORDER BY productLineId";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, search);
+			ResultSet res = stmt.executeQuery();
 
-            conn.commit();
+			while (res.next())
+			{
+				int id = res.getInt("PRODUCTLINEID");
+				String name = res.getString("PRODUCTNAME");
+				double price = res.getDouble("PRICE");
 
-            if (rowsAffected == 0)
-            {
-                Console.WriteLine("An error occurred and no products were affected by this update.", "red");
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+				Product product = new Product(id, name, price);
+				products.add(product);
+			}
 
-        }
-        catch(Exception e)
-        {
-            try
-            {
-                conn.rollback();
-            }
-            catch (Exception rollbackException)
-            {
-                Console.WriteLine("An error occurred while attempting to revert changes.", "red");
-                return false;
-            }
+			stmt.close();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("An error occurred while searching for products. Please try again.", "red");
+		}
 
-            Console.WriteLine("An error occurred while trying to save changes made to this product.", "red");
-            Console.WriteLine("The product has not been modified. Please try again.", "red");
-            return false;
-        }
-    }
+		return products;
+	}
+
+	public ArrayList<Product> GetIngredients(Connection conn)
+	{
+		ArrayList<Product> ingredients = new ArrayList<>();
+
+		try
+		{
+			String query =
+				"SELECT p.productLineId, p.productName, p.price " +
+					"FROM ingredients i " +
+					"INNER JOIN productLine p ON i.componentId = p.productLineId " +
+					"WHERE i.productId = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, this.GetProductId());
+			ResultSet res = stmt.executeQuery();
+
+			while (res.next())
+			{
+				int id = res.getInt("PRODUCTLINEID");
+				String name = res.getString("PRODUCTNAME");
+				double price = res.getDouble("PRICE");
+
+				Product ingredient = new Product(id, name, price);
+				ingredients.add(ingredient);
+			}
+
+			stmt.close();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("An error occurred while retrieving ingredients. Please try again.", "red");
+		}
+
+		return ingredients;
+	}
+
+	public boolean Save(Connection conn)
+	{
+		try
+		{
+			String query = "UPDATE productLine SET productName = ?, price = ? WHERE productLineId = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, this.GetName());
+			stmt.setDouble(2, this.GetPrice());
+			stmt.setInt(3, this.GetProductId());
+
+			int rowsAffected = stmt.executeUpdate();
+			stmt.close();
+
+			conn.commit();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and no products were affected by this update.", "red");
+				return false;
+			} else
+			{
+				return true;
+			}
+
+		}
+		catch (Exception e)
+		{
+			try
+			{
+				conn.rollback();
+			}
+			catch (Exception rollbackException)
+			{
+				Console.WriteLine("An error occurred while attempting to revert changes.", "red");
+				return false;
+			}
+
+			Console.WriteLine("An error occurred while trying to save changes made to this product.", "red");
+			Console.WriteLine("The product has not been modified. Please try again.", "red");
+			return false;
+		}
+	}
 }

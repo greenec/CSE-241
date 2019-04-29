@@ -54,7 +54,7 @@ public class ProductManagerInterface
 			Console.WriteLine("Here is a list of all matching products:");
 			for (Product product : products)
 			{
-				Console.WriteLine("    #" + String.format("%-4s", product.GetProductId()) + " " + product.GetName());
+				Console.WriteLine("\t" + product.toString(true));
 			}
 			break;
 		}
@@ -83,7 +83,7 @@ public class ProductManagerInterface
 				case 0:
 					return;
 				case 1:
-					Console.WriteLine(product.toString(), "green");
+					Console.WriteLine(product.toString(false, true), "green");
 					break;
 				case 2:
 					UpdateProduct(conn, product);
@@ -97,7 +97,7 @@ public class ProductManagerInterface
 
 	private static void UpdateProduct(Connection conn, Product product)
 	{
-		Console.WriteLine("You are now updating " + product.toString());
+		Console.WriteLine("You are now updating Product " + product.toString(false, true));
 
 		while (true)
 		{
@@ -119,7 +119,7 @@ public class ProductManagerInterface
 				String newName = Console.GetString("Please enter a new product name: ", "blue", 50);
 				product.SetName(newName);
 
-				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(), "yellow");
+				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(false, true), "yellow");
 			}
 			else if (action == 2)
 			{
@@ -127,7 +127,7 @@ public class ProductManagerInterface
 				double newPrice = Console.GetDouble("Please enter a new Regork sale price: ", "blue", 0.0001, 999999.9999);
 				product.SetPrice(newPrice);
 
-				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(), "yellow");
+				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(false, true), "yellow");
 			}
 			else if(action == 3)
 			{
@@ -135,7 +135,7 @@ public class ProductManagerInterface
 				if (bSaved)
 				{
 					Console.WriteLine("Product has been saved successfully!", "green");
-					Console.WriteLine("New status is " + product.toString(), "green");
+					Console.WriteLine("New status is " + product.toString(false, true), "green");
 				}
 				return;
 			}
