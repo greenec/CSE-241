@@ -80,11 +80,11 @@ CREATE TABLE supplies (
 	
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 		
 	FOREIGN KEY (receiverId)
         REFERENCES supplier(supplierId)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
 
 CREATE TABLE ships (
@@ -97,7 +97,7 @@ CREATE TABLE ships (
 		
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
 
 CREATE TABLE receives (
@@ -111,7 +111,7 @@ CREATE TABLE receives (
 		
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
 
 CREATE TABLE contains (
@@ -131,7 +131,7 @@ CREATE TABLE contains (
 
 CREATE TABLE madeFrom (
 	productLineId NUMBER,
-	lotId NUMBER,
+	batchId NUMBER,
 	
 	CONSTRAINT madeFrom_pk PRIMARY KEY (productLineId, lotId),
 	
@@ -139,14 +139,16 @@ CREATE TABLE madeFrom (
         REFERENCES productLine(productLineId)
         ON DELETE SET NULL,
 		
-	FOREIGN KEY (lotId)
-        REFERENCES lot(lotId)
-        ON DELETE SET NULL
+	FOREIGN KEY (batchId)
+        REFERENCES batch(batchId)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE manufactures (
 	batchId NUMBER,
 	supplierId NUMBER,
+	
+	CONSTRAINT manufactures_pk PRIMARY KEY (batchId, supplierId),
 	
 	FOREIGN KEY (batchId)
 		REFERENCES batch(batchId)
@@ -166,9 +168,9 @@ CREATE TABLE offers (
 
 	FOREIGN KEY (supplierId)
         REFERENCES supplier(supplierId)
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
 	
 	FOREIGN KEY (productLineId)
         REFERENCES productLine(productLineId)
-        ON DELETE SET NULL
+        ON DELETE CASCADE
 );
