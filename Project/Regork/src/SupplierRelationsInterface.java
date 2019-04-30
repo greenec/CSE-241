@@ -78,8 +78,9 @@ public class SupplierRelationsInterface
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) View Supplier's Address");
 			Console.WriteLine("\t2) List Supplier's Phone Numbers");
+			Console.WriteLine("\t3) Add Phone Number for Supplier");
 
-			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
+			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 3);
 
 			switch (action)
 			{
@@ -89,20 +90,43 @@ public class SupplierRelationsInterface
 					Console.WriteLine(supplier.GetFormattedAddress(), "green");
 					break;
 				case 2:
-					if (supplier.GetPhoneNumbers().size() == 0)
-					{
-						Console.WriteLine("This supplier has no phone numbers in the database!", "yellow");
-					}
-
-					for (String phoneNumber : supplier.GetPhoneNumbers())
-					{
-						Console.WriteLine(phoneNumber, "green");
-					}
+					ListSupplierPhoneNumbers(supplier);
+					break;
+				case 3:
+					AddPhoneNumber(conn, supplier);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
 					return;
 			}
+		}
+	}
+
+	private static void ListSupplierPhoneNumbers(Supplier supplier)
+	{
+		if (supplier.GetPhoneNumbers().size() == 0)
+		{
+			Console.WriteLine("This supplier has no phone numbers in the database!", "yellow");
+		}
+
+		for (String phoneNumber : supplier.GetPhoneNumbers())
+		{
+			Console.WriteLine(phoneNumber, "green");
+		}
+	}
+
+	private static void AddPhoneNumber(Connection conn, Supplier supplier)
+	{
+		String phoneNumber = Console.GetString("Please enter another phone number for this supplier: ", "blue");
+		supplier.AddPhoneNumber(phoneNumber);
+
+		if(supplier.Save(conn))
+		{
+			Console.WriteLine("Phone number '" + phoneNumber + "' added successfully!", "green");
+		}
+		else
+		{
+			supplier.Refresh(conn);
 		}
 	}
 }

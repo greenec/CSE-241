@@ -240,7 +240,7 @@ public class Supplier
 	{
 		try
 		{
-			PreparedStatement stmt = conn.prepareStatement("DELETE FROM supplierPhone WHERE supplierPhone = ?");
+			PreparedStatement stmt = conn.prepareStatement("DELETE FROM supplierPhone WHERE supplierId = ?");
 			stmt.setInt(1, this.GetSupplierId());
 			stmt.executeUpdate();
 			stmt.close();
