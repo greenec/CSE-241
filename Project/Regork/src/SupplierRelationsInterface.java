@@ -57,7 +57,7 @@ public class SupplierRelationsInterface
 			Console.WriteLine("Here is a list of all matching suppliers:");
 			for (Supplier supplier : suppliers)
 			{
-				Console.WriteLine("    #" + String.format("%-4s", supplier.GetSupplierId()) + " " + supplier.GetName());
+				Console.WriteLine("\t" + supplier.toString(true));
 			}
 			break;
 		}
@@ -65,11 +65,11 @@ public class SupplierRelationsInterface
 		Console.WriteLine("Enter the ID for the supplier you seek.", "blue");
 		int id = Console.GetInt("Please enter an integer between 0 and 9999: ", "blue", 0, 9999);
 
-		// attempt to retrieve the product with the given ID
+		// attempt to retrieve the supplier with the given ID
 		Supplier supplier = Supplier.GetById(conn, id);
 		if (supplier == null)
 		{
-			Console.WriteLine("There are no products found with that ID.", "yellow");
+			Console.WriteLine("There are no suppliers found with that ID.", "yellow");
 			return;
 		}
 

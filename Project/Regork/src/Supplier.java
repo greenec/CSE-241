@@ -65,6 +65,29 @@ public class Supplier
 		this.PhoneNumbers.add(phoneNumber);
 	}
 
+	public String toString()
+	{
+		return toString(false);
+	}
+
+	public String toString(boolean formatId)
+	{
+		String out = "#";
+
+		if (formatId)
+		{
+			out += String.format("%-4s", this.GetSupplierId());
+		}
+		else
+		{
+			out += this.GetSupplierId();
+		}
+
+		out += " " + this.GetName();
+
+		return out;
+	}
+
 	public boolean Refresh(Connection conn)
 	{
 		boolean bSuccess = false;
