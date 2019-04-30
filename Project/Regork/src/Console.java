@@ -38,13 +38,18 @@ public class Console
 
 	public static String GetString(String prompt, String color)
 	{
-		String input = "";
-		while (input.length() == 0)
+		while (true)
 		{
 			Console.Write(prompt, color);
-			input = Console.ReadLine();
+			String input = Console.ReadLine();
+
+			if (input.length() != 0)
+			{
+				return input;
+			}
+
+			Console.WriteLine("Your input should not be empty.", "yellow");
 		}
-		return input;
 	}
 
 	public static String GetString(String prompt, String color, int maxLength)
@@ -80,17 +85,18 @@ public class Console
 			}
 			catch (NumberFormatException e)
 			{
+				Console.WriteLine("Please enter a valid integer.", "yellow");
 				continue;
 			}
 
 			// make sure that the input is in range
 			if(out >= min && out <= max)
 			{
-				break;
+				return out;
 			}
-		}
 
-		return out;
+			Console.WriteLine("The number you entered is out of range.", "yellow");
+		}
 	}
 
 	public static double GetDouble(String prompt, String color, double min, double max)
@@ -109,17 +115,18 @@ public class Console
 			}
 			catch (NumberFormatException e)
 			{
+				Console.WriteLine("Please enter a valid decimal.", "yellow");
 				continue;
 			}
 
 			// make sure that the double is in range
 			if(out >= min && out <= max)
 			{
-				break;
+				return out;
 			}
-		}
 
-		return out;
+			Console.WriteLine("The number you entered is out of range.");
+		}
 	}
 
 	public static void WriteLine()
