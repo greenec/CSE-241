@@ -52,6 +52,7 @@ public class Regork
 			Console.WriteLine("\t1) Regork Product Manager");
 			Console.WriteLine("\t2) Supplier Relations Manager");
 			Console.WriteLine("\t3) Regork Customer");
+			Console.WriteLine("\t4) Shipping Manager", "yellow");
 
 			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 3);
 
@@ -60,20 +61,28 @@ public class Regork
 				break;
 			}
 
-			switch (role)
+			try
 			{
-				case 1:
-					ProductManagerInterface.Run(conn);
-					break;
-				case 2:
-					SupplierRelationsInterface.Run(conn);
-					break;
-				case 3:
-					CustomerInterface.Run(conn);
-					break;
-				default:
-					Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
-					break;
+				switch (role)
+				{
+					case 1:
+						ProductManagerInterface.Run(conn);
+						break;
+					case 2:
+						SupplierRelationsInterface.Run(conn);
+						break;
+					case 3:
+						CustomerInterface.Run(conn);
+						break;
+					default:
+						Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
+						break;
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
+				Console.WriteLine("If this issue persists, please call Regork support at 1-REG-ORK-SUPT (1-734-675-7878)", "red");
 			}
 		}
 
