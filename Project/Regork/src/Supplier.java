@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Supplier
 {
@@ -44,6 +45,43 @@ public class Supplier
 	public ArrayList<String> GetPhoneNumbers()
 	{
 		return this.PhoneNumbers;
+	}
+
+	public ArrayList<Shipment> GetShipments(Connection conn)
+	{
+		ArrayList<Shipment> shipments = new ArrayList<>();
+
+		try
+		{
+			String query =
+				"SELECT s.shipmentId, s.shipmentDate, s.unitPrice, s.quantity " +
+					"FROM shipment s " +
+					"INNER JOIN ships sh ON s.shipmentId = sh.shipmentId " +
+					"WHERE sh.supplierId = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, this.GetSupplierId());
+			ResultSet res = stmt.executeQuery();
+
+			if (res.next())
+			{
+				int shipmentId = res.getInt("SHIPMENTID");
+				Date shipmentDate = res.getDate("SHIPMENTDATE");
+				double unitPrice = res.getDouble("UNITPRICE");
+				int quantity = res.getInt("QUANTITY");
+
+				Shipment shipment = new Shipment(shipmentId, shipmentDate, unitPrice, quantity);
+				shipments.add(shipment);
+			}
+
+			stmt.close();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("An error occurred while trying to retrieve shipments. Please try again.", "red");
+			return null;
+		}
+
+		return shipments;
 	}
 
 	public void SetName(String name)

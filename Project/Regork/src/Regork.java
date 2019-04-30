@@ -52,9 +52,9 @@ public class Regork
 			Console.WriteLine("\t1) Regork Product Manager");
 			Console.WriteLine("\t2) Supplier Relations Manager");
 			Console.WriteLine("\t3) Regork Customer");
-			Console.WriteLine("\t4) Shipping Manager", "yellow");
+			Console.WriteLine("\t4) Outgoing Shipment Manager");
 
-			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 3);
+			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 4);
 
 			if (role == 0)
 			{
@@ -73,6 +73,9 @@ public class Regork
 						break;
 					case 3:
 						CustomerInterface.Run(conn);
+						break;
+					case 4:
+						OutgoingShipmentInterface.Run(conn);
 						break;
 					default:
 						Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
