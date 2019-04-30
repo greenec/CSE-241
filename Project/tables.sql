@@ -68,12 +68,7 @@ CREATE TABLE shipment (
     shipmentId NUMBER PRIMARY KEY,
     unitPrice DECIMAL(10, 4) NOT NULL,
     quantity NUMBER,
-    supplierId NUMBER,
     shipmentDate DATE,
-	
-	FOREIGN KEY (supplierId)
-        REFERENCES supplier(supplierId)
-        ON DELETE SET NULL
 );
 CREATE INDEX shipment_supplierId_idx ON shipment (supplierId);
 
