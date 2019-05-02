@@ -201,34 +201,38 @@ public class Product
 		try
 		{
 			String query = "INSERT INTO productLine (productName, price) VALUES (?, ?)";
-			PreparedStatement stmt = conn.prepareStatement(query);
+			PreparedStatement stmt = conn.prepareStatement(query, new String[] {"productLineId"});
 			stmt.setString(1, this.GetName());
 			stmt.setDouble(2, this.GetPrice());
 
 			int rowsAffected = stmt.executeUpdate();
-			stmt.close();
 
 			conn.commit();
 
 			if (rowsAffected == 0)
 			{
 				Console.WriteLine("An error occurred and this product was not created.");
+
+				stmt.close();
 				return false;
 			}
 
+			boolean bRet = false;
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys())
 			{
 				if (generatedKeys.next())
 				{
 					this.ProductId = generatedKeys.getInt(1);
-					return true;
+					bRet = true;
 				}
 				else
 				{
 					Console.WriteLine("There was an error creating the product. No new ID was assigned.", "red");
-					return false;
 				}
 			}
+
+			stmt.close();
+			return bRet;
 		}
 		catch (Exception e)
 		{
