@@ -54,7 +54,7 @@ public class Regork
 			Console.WriteLine("\t3) Regork Customer");
 			Console.WriteLine("\t4) Outgoing Shipment Manager");
 
-			int role = Console.GetInt("Please enter a number between 1 and 3, or press 0 to exit: ", "blue", 0, 4);
+			int role = Console.GetInt("Please enter a number between 1 and 4, or press 0 to exit: ", "blue", 0, 4);
 
 			if (role == 0)
 			{
