@@ -25,6 +25,9 @@ public class ProductManagerInterface
 				case 1:
 					ProductSearch(conn);
 					break;
+				case 2:
+					CreateProduct(conn);
+					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to manager's menu.", "red");
 					break;
@@ -144,6 +147,25 @@ public class ProductManagerInterface
 				Console.WriteLine("An unexpected error occurred. Returning to manager's menu.", "red");
 				return;
 			}
+		}
+	}
+
+	private static void CreateProduct(Connection conn)
+	{
+		Product product = new Product(0);
+
+		Console.WriteLine("You are now creating a new product.");
+
+		String productName = Console.GetString("Please enter the product name: ", "blue", 50);
+		double productPrice = Console.GetDouble("Please enter the Regork retail price: ", "blue", 0, 999999.9999);
+
+		product.SetName(productName);
+		product.SetPrice(productPrice);
+
+		boolean bCreated = product.Create(conn);
+		if (bCreated)
+		{
+			Console.WriteLine("Product was successfully created! Status is Product " + product.toString(false, true), "green");
 		}
 	}
 }
