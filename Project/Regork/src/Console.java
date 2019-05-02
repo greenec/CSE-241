@@ -1,10 +1,11 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class Console
 {
 	private enum Background { Light, Dark };
 
-	private static Scanner sc = new Scanner(System.in);
+	private static BufferedReader systemIn = new BufferedReader(new InputStreamReader(System.in));
 	private static Background BackgroundColor = Background.Dark;
 
 	public static void Initialize()
@@ -33,7 +34,24 @@ public class Console
 
 	public static String ReadLine()
 	{
-		return sc.nextLine().trim();
+		String input;
+		while (true)
+		{
+			try
+			{
+				if ((input = systemIn.readLine()) != null)
+				{
+					return input.trim();
+				}
+
+				Console.WriteLine();
+				return "";
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("An error occurred while reading your input. Please try again.", "red");
+			}
+		}
 	}
 
 	public static String GetString(String prompt, String color)
