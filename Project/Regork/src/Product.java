@@ -196,6 +196,57 @@ public class Product
 		return ingredients;
 	}
 
+	public boolean Create(Connection conn)
+	{
+		try
+		{
+			String query = "INSERT INTO productLine (productName, price) VALUES (?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, this.GetName());
+			stmt.setDouble(2, this.GetPrice());
+
+			int rowsAffected = stmt.executeUpdate();
+			stmt.close();
+
+			conn.commit();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and this product was not created.");
+				return false;
+			}
+
+			try (ResultSet generatedKeys = stmt.getGeneratedKeys())
+			{
+				if (generatedKeys.next())
+				{
+					this.ProductId = generatedKeys.getInt(1);
+					return true;
+				}
+				else
+				{
+					Console.WriteLine("There was an error creating the product. No new ID was assigned.", "red");
+					return false;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			try
+			{
+				conn.rollback();
+			}
+			catch (Exception rollbackException)
+			{
+				Console.WriteLine("An error occurred while attempting to revert changes.", "red");
+				return false;
+			}
+
+			Console.WriteLine("An error occurred while trying to create this product. Please try again.", "red");
+			return false;
+		}
+	}
+
 	public boolean Save(Connection conn)
 	{
 		try
@@ -215,11 +266,9 @@ public class Product
 			{
 				Console.WriteLine("An error occurred and no products were affected by this update.", "red");
 				return false;
-			} else
-			{
-				return true;
 			}
 
+			return true;
 		}
 		catch (Exception e)
 		{

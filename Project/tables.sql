@@ -33,7 +33,7 @@ CREATE TABLE supplierPhone (
 CREATE INDEX supplierPhone_supplierId_idx ON supplierPhone (supplierId);
 
 CREATE TABLE productLine (
-	productLineId NUMBER PRIMARY KEY,
+	productLineId NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	productName VARCHAR(50),
 	price DECIMAL (10, 4)
 );
