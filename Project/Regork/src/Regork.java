@@ -12,7 +12,8 @@ public class Regork
 		try
 		{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-		} catch (ClassNotFoundException e)
+		}
+		catch (ClassNotFoundException e)
 		{
 			Console.WriteLine("Oracle driver not found, exiting with status code 1.", "red");
 			System.exit(1);
@@ -33,7 +34,8 @@ public class Regork
 				conn = DriverManager.getConnection("jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", userId, password);
 				conn.setAutoCommit(false);
 				break;
-			} catch (Exception e)
+			}
+			catch (Exception e)
 			{
 				Console.WriteLine("An error occurred while connecting to the database.", "red");
 				Console.WriteLine("The username or password may be incorrect, or the database cannot be reached. Please try again.", "red");
@@ -54,15 +56,16 @@ public class Regork
 			Console.WriteLine("\t3) Regork Customer");
 			Console.WriteLine("\t4) Outgoing Shipment Manager");
 
-			int role = Console.GetInt("Please enter a number between 1 and 4, or press 0 to exit: ", "blue", 0, 4);
-
-			if (role == 0)
-			{
-				break;
-			}
-
 			try
 			{
+
+				int role = Console.GetInt("Please enter a number between 1 and 4, or press 0 to exit: ", "blue", 0, 4);
+
+				if (role == 0)
+				{
+					break;
+				}
+
 				switch (role)
 				{
 					case 1:
@@ -82,7 +85,7 @@ public class Regork
 						break;
 				}
 			}
-			catch (Exception e)
+			catch (Throwable e)
 			{
 				Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
 				Console.WriteLine("If this issue persists, please call Regork support at 1-REG-ORK-SUPT (1-734-675-7878)", "red");
@@ -94,7 +97,8 @@ public class Regork
 		{
 			conn.close();
 			Console.WriteLine("Thanks for using Regork!", "green");
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			Console.WriteLine("There was an error in trying to close the database connection.", "red");
 		}
