@@ -144,7 +144,7 @@ public class OutgoingShipmentInterface
 		int batchId = Console.GetInt("Please enter the batch ID that you are shipping: ", "blue", 0, 9999);
 		if (!batchIds.contains(batchId))
 		{
-			Console.WriteLine(supplier.Name + " didn't manufacture batch " + batchId + ".", "yellow");
+			Console.WriteLine(supplier.Name + " didn't manufacture Batch #" + batchId + " and therefore cannot ship it.", "yellow");
 			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
 			return;
 		}

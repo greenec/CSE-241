@@ -90,7 +90,7 @@ public class SupplierRelationsInterface
 			Console.WriteLine("\t3) Update Supplier Info");
 			Console.WriteLine("\t4) Add New Phone Number for Supplier");
 
-			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 3);
+			int action = Console.GetInt("Please enter a number between 1 and 4, or enter 0 to exit: ", "blue", 0, 4);
 
 			switch (action)
 			{
