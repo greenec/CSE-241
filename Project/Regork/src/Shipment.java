@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Shipment
 {
@@ -53,7 +53,7 @@ public class Shipment
 			out += this.GetShipmentId();
 		}
 
-		out += " " + this.GetShipmentDate();
+		out += " (" + this.GetShipmentDate() + ")";
 
 		return out;
 	}
@@ -92,5 +92,95 @@ public class Shipment
 			Console.WriteLine("An error occurred while loading products for this shipment. Please try again.", "red");
 			return false;
 		}
+	}
+
+	public boolean Create(Connection conn, int batchId, int supplierId)
+	{
+		try
+		{
+			if ((this.ShipmentId = GetNextId(conn)) == 0)
+			{
+				Console.WriteLine("There was an error while creating this shipment. Please try again.", "red");
+				return false;
+			}
+
+			String query = "INSERT INTO shipment (shipmentId, shipmentDate, unitPrice, quantity) VALUES(?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, this.GetShipmentId());
+			stmt.setDate(2, this.GetShipmentDate());
+			stmt.setDouble(3, this.UnitPrice);
+			stmt.setInt(4, this.Quantity);
+			int rowsAffected = stmt.executeUpdate();
+			stmt.close();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and this shipment was not created.");
+				conn.rollback();
+				return false;
+			}
+
+			stmt = conn.prepareStatement("INSERT INTO contains(shipmentId, batchId) VALUES(?, ?)");
+			stmt.setInt(1, this.GetShipmentId());
+			stmt.setInt(2, batchId);
+			rowsAffected = stmt.executeUpdate();
+			stmt.close();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and this shipment was not created.");
+				conn.rollback();
+				return false;
+			}
+
+			stmt = conn.prepareStatement("INSERT INTO ships(shipmentId, supplierId) VALUES(?, ?)");
+			stmt.setInt(1, this.GetShipmentId());
+			stmt.setInt(2, supplierId);
+			rowsAffected = stmt.executeUpdate();
+			stmt.close();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and this shipment was not created.");
+				conn.rollback();
+				return false;
+			}
+
+			conn.commit();
+			return true;
+		}
+		catch (Exception e)
+		{
+			try
+			{
+				conn.rollback();
+			}
+			catch (Exception rollbackException)
+			{
+				Console.WriteLine("An error occurred while attempting to revert changes.", "red");
+				return false;
+			}
+
+			Console.WriteLine("An error occurred while trying to create this shipment. Please try again.", "red");
+			return false;
+		}
+	}
+
+	private static int GetNextId(Connection conn)
+	{
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement("SELECT MAX(shipmentId) + 1 FROM shipment");
+			ResultSet res = stmt.executeQuery();
+			if (res.next())
+			{
+				return res.getInt(1);
+			}
+		}
+		catch (Exception e)
+		{
+			return 0;
+		}
+		return 0;
 	}
 }

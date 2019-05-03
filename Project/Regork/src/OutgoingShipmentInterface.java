@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.sql.Date;
 
 public class OutgoingShipmentInterface
 {
@@ -22,20 +23,22 @@ public class OutgoingShipmentInterface
 
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) View Outgoing Shipments");
-			Console.WriteLine("\t2) Create Outgoing Shipment", "yellow");
+			Console.WriteLine("\t2) Create Outgoing Shipment");
 			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
+			Supplier supplier;
 			switch (action)
 			{
 				case 0:
 					return;
 				case 1:
-					Supplier supplier = SupplierSearch(conn);
+					supplier = SupplierSearch(conn);
 					ViewOutgoingShipments(conn, supplier);
 					break;
 				case 2:
-					Console.WriteLine("This interface has not been implemented yet!", "yellow");
+					supplier = SupplierSearch(conn);
+					CreateShipment(conn, supplier);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
@@ -108,6 +111,55 @@ public class OutgoingShipmentInterface
 			{
 				Console.WriteLine("\t\tProduct " + product.toString());
 			}
+		}
+	}
+
+	private static void CreateShipment(Connection conn, Supplier supplier)
+	{
+		ArrayList<Batch> batches = supplier.GetBatches(conn);
+
+		if (batches == null)
+		{
+			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
+			return;
+		}
+
+		if (batches.isEmpty())
+		{
+			Console.WriteLine(supplier.GetName() + " hasn't manufactured any batches, and therefore cannot ship any product.");
+			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
+			return;
+		}
+
+		Console.WriteLine("Here is a list of batches manufactured by " + supplier.GetName() + ": ");
+		ArrayList<Integer> batchIds = new ArrayList<>();
+
+		for (Batch batch : batches)
+		{
+			batchIds.add(batch.GetBatchId());
+			Console.WriteLine("\tBatch " + batch.toString());
+			Console.WriteLine("\t\tContains Product " + batch.GetProduct().toString());
+		}
+
+		int batchId = Console.GetInt("Please enter the batch ID that you are shipping: ", "blue", 0, 9999);
+		if (!batchIds.contains(batchId))
+		{
+			Console.WriteLine(supplier.GetName() + " didn't manufacture batch " + batchId + ".", "yellow");
+			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
+			return;
+		}
+
+		Date shipmentDate = Console.GetDate("Please enter the shipment date in the format mm-dd-yyyy: ", "blue");
+		double unitPrice = Console.GetDouble("Please enter the unit price of the shipment: ", "blue", 0, 999999.9999);
+		int quantity = Console.GetInt("Please enter the quantity of the shipment: ", "blue", 0, 99999999);
+
+		Shipment shipment = new Shipment(0, shipmentDate, unitPrice, quantity);
+
+		boolean bCreated = shipment.Create(conn, batchId, supplier.GetSupplierId());
+
+		if (bCreated)
+		{
+			Console.WriteLine("Shipment successfully created! Status is Shipment " + shipment.toString(), "green");
 		}
 	}
 }

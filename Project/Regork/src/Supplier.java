@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Supplier
 {
@@ -83,6 +83,47 @@ public class Supplier
 		}
 
 		return shipments;
+	}
+
+	public ArrayList<Batch> GetBatches(Connection conn)
+	{
+		ArrayList<Batch> batches = new ArrayList<>();
+
+		try
+		{
+			String query =
+				"SELECT b.batchId, b.processingDate, p.productLineId, p.productName, p.price " +
+					"FROM manufactures m " +
+					"INNER JOIN batch b ON m.batchId = b.batchId " +
+					"INNER JOIN madeFrom mf ON b.batchId = mf.batchId " +
+					"INNER JOIN productLine p ON mf.productLineId = p.productLineId " +
+					"WHERE m.supplierId = ?";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, this.GetSupplierId());
+			ResultSet res = stmt.executeQuery();
+
+			while (res.next())
+			{
+				int batchId = res.getInt("BATCHID");
+				Date processingDate = res.getDate("PROCESSINGDATE");
+				int productId = res.getInt("PRODUCTLINEID");
+				String productName = res.getString("PRODUCTNAME");
+				double price = res.getDouble("PRICE");
+
+				Product product = new Product(productId, productName, price);
+				Batch batch = new Batch(batchId, product, processingDate);
+				batches.add(batch);
+			}
+
+			stmt.close();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine("An error occurred while trying to retrieve batches. Please try again.", "red");
+			return null;
+		}
+
+		return batches;
 	}
 
 	public void SetName(String name)
