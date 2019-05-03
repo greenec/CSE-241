@@ -21,7 +21,7 @@ public class SupplierRelationsInterface
 			Console.WriteLine();
 
 			Console.WriteLine("Please select an action from the list below:");
-			Console.WriteLine("\t1) Search Suppliers");
+			Console.WriteLine("\t1) Find and Manage Suppliers");
 			Console.WriteLine("\t2) Create a New Supplier");
 			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
@@ -87,7 +87,8 @@ public class SupplierRelationsInterface
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) View Supplier's Address");
 			Console.WriteLine("\t2) List Supplier's Phone Numbers");
-			Console.WriteLine("\t3) Add Phone Number for Supplier");
+			Console.WriteLine("\t3) Update Supplier Info");
+			Console.WriteLine("\t4) Add New Phone Number for Supplier");
 
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 3);
 
@@ -102,6 +103,9 @@ public class SupplierRelationsInterface
 					ListSupplierPhoneNumbers(supplier);
 					break;
 				case 3:
+					UpdateSupplier(conn, supplier);
+					break;
+				case 4:
 					AddPhoneNumber(conn, supplier);
 					break;
 				default:
@@ -136,6 +140,27 @@ public class SupplierRelationsInterface
 		else
 		{
 			supplier.Refresh(conn);
+		}
+	}
+
+	private static void UpdateSupplier(Connection conn, Supplier supplier)
+	{
+		Console.WriteLine("You are now updating Supplier " + supplier.toString());
+
+		String supplierName = Console.GetString("Please enter the new supplier name: ", "blue", 50);
+		String streetName = Console.GetString("Please enter the new supplier's street name: ", "blue", 80);
+		int streetNumber = Console.GetInt("Please enter the new supplier's street number: ", "blue", 1, 99999999);
+		String city = Console.GetString("Please enter the new supplier's city: ", "blue", 50);
+		String state = Console.GetString("Please enter the new supplier's state: ", "blue", 20);
+		int zipCode = Console.GetInt("Please enter the new supplier's zip code: ", "blue", 0, 99999);
+
+		supplier.SetName(supplierName);
+		supplier.SetAddress(streetName, streetNumber, city, state, zipCode);
+
+		boolean bSaved = supplier.Save(conn);
+		if (bSaved)
+		{
+			Console.WriteLine("Product was successfully updated! Status is Supplier " + supplier.toString(), "green");
 		}
 	}
 
