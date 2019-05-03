@@ -164,7 +164,7 @@ public class ProductManagerInterface
 		Console.WriteLine("You are now creating a new product.");
 
 		String productName = Console.GetString("Please enter the product name: ", "blue", 50);
-		double productPrice = Console.GetDouble("Please enter the Regork retail price: ", "blue", 0, 999999.9999);
+		double productPrice = Console.GetDouble("Please enter the Regork retail price: ", "blue", 0.0001, 999999.9999);
 
 		product.Name = productName;
 		product.Price = productPrice;

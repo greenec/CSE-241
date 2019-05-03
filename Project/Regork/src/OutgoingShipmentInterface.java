@@ -150,7 +150,7 @@ public class OutgoingShipmentInterface
 		}
 
 		Date shipmentDate = Console.GetDate("Please enter the shipment date in the format mm-dd-yyyy: ", "blue");
-		double unitPrice = Console.GetDouble("Please enter the unit price of the shipment: ", "blue", 0, 999999.9999);
+		double unitPrice = Console.GetDouble("Please enter the unit price of the shipment: ", "blue", 0.0001, 999999.9999);
 		int quantity = Console.GetInt("Please enter the quantity of the shipment: ", "blue", 0, 99999999);
 
 		Shipment shipment = new Shipment(0, shipmentDate, unitPrice, quantity);
