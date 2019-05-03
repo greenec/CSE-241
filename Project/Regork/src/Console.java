@@ -1,9 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.sql.Date;
 
 public class Console
 {
@@ -249,10 +249,10 @@ public class Console
 					System.out.print("\033[0;31m" + message);
 					break;
 				case "green":
-					System.out.print("\033[1;32m" + message);
+					System.out.print("\033[0;32m" + message);
 					break;
 				case "yellow":
-					System.out.print("\033[1;33m" + message);
+					System.out.print("\033[0;33m" + message);
 					break;
 				case "blue":
 					System.out.print("\033[0;34m" + message);
