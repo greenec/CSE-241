@@ -62,7 +62,7 @@ public class Supplier
 			stmt.setInt(1, this.GetSupplierId());
 			ResultSet res = stmt.executeQuery();
 
-			if (res.next())
+			while (res.next())
 			{
 				int shipmentId = res.getInt("SHIPMENTID");
 				Date shipmentDate = res.getDate("SHIPMENTDATE");
@@ -70,6 +70,7 @@ public class Supplier
 				int quantity = res.getInt("QUANTITY");
 
 				Shipment shipment = new Shipment(shipmentId, shipmentDate, unitPrice, quantity);
+				shipment.LoadProducts(conn);
 				shipments.add(shipment);
 			}
 
@@ -150,7 +151,7 @@ public class Supplier
 				this.SetAddress(streetName, streetNumber, city, state, zipCode);
 
 				// success of a refresh is now contingent on phone numbers being refreshed properly
-				bSuccess = this.RefreshPhoneNumbers(conn);
+				bSuccess = this.LoadPhoneNumbers(conn);
 			}
 
 			stmt.close();
@@ -164,7 +165,7 @@ public class Supplier
 		return bSuccess;
 	}
 
-	private boolean RefreshPhoneNumbers(Connection conn)
+	private boolean LoadPhoneNumbers(Connection conn)
 	{
 		try
 		{

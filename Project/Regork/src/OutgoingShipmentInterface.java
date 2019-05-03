@@ -1,23 +1,29 @@
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OutgoingShipmentInterface
 {
 	public static void Run(Connection conn)
 	{
-		Console.WriteLine("Welcome, supplier relations manager!", "green");
 
 		while (true)
 		{
+			Console.Clear();
+
+			Console.WriteLine();
+			Console.WriteLine("Welcome, supplier relations manager!", "green");
+			Console.WriteLine();
+
 			Console.WriteLine("* * * * * * * * * * * * * * * * * * * * *");
 			Console.WriteLine("*   OUTGOING SHIPMENT MANAGEMENT MENU   *");
 			Console.WriteLine("* * * * * * * * * * * * * * * * * * * * *");
 
+			Console.WriteLine();
+
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) View Outgoing Shipments");
-			Console.WriteLine("\t2) Add Outgoing Shipment", "yellow");
-
+			Console.WriteLine("\t2) Create Outgoing Shipment", "yellow");
+			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
 			switch (action)
@@ -35,6 +41,8 @@ public class OutgoingShipmentInterface
 					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
 					break;
 			}
+
+			Console.Wait();
 		}
 	}
 
@@ -95,7 +103,11 @@ public class OutgoingShipmentInterface
 		Console.WriteLine("Here is a list of shipments for Supplier " + supplier.toString());
 		for (Shipment shipment : shipments)
 		{
-			Console.WriteLine("\t" + shipment.toString(true));
+			Console.WriteLine("\tShipment " + shipment.toString(true));
+			for (Product product : shipment.GetProducts())
+			{
+				Console.WriteLine("\t\tProduct " + product.toString());
+			}
 		}
 	}
 }

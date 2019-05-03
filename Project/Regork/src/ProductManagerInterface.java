@@ -5,18 +5,25 @@ public class ProductManagerInterface
 {
 	public static void Run(Connection conn)
 	{
-		Console.WriteLine("Welcome, product manager!", "green");
-
 		while (true)
 		{
+			Console.Clear();
+
+			Console.WriteLine();
+			Console.WriteLine("Welcome, product manager!", "green");
+			Console.WriteLine();
+
 			Console.WriteLine("* * * * * * * * * * * * * * * *");
 			Console.WriteLine("*   PRODUCT MANAGEMENT MENU   *");
 			Console.WriteLine("* * * * * * * * * * * * * * * *");
 
+			Console.WriteLine();
+
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Manage Products");
-
-			int action = Console.GetInt("Please select an action, or enter 0 to exit: ", "blue", 0, 1);
+			Console.WriteLine("\t2) Create a New Product");
+			Console.WriteLine();
+			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
 			switch (action)
 			{
@@ -32,6 +39,8 @@ public class ProductManagerInterface
 					Console.WriteLine("An unexpected error occurred. Returning to manager's menu.", "red");
 					break;
 			}
+
+			Console.Wait();
 		}
 	}
 

@@ -5,18 +5,25 @@ public class SupplierRelationsInterface
 {
 	public static void Run(Connection conn)
 	{
-		Console.WriteLine("Welcome, supplier relations manager!", "green");
 
 		while (true)
 		{
+			Console.Clear();
+
+			Console.WriteLine();
+			Console.WriteLine("Welcome, supplier relations manager!", "green");
+			Console.WriteLine();
+
 			Console.WriteLine("* * * * * * * * * * * * * * * * * * * * *");
 			Console.WriteLine("*   SUPPLIER RELATION MANAGEMENT MENU   *");
 			Console.WriteLine("* * * * * * * * * * * * * * * * * * * * *");
 
+			Console.WriteLine();
+
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Search Suppliers");
-			Console.WriteLine("\t2) Add a New Supplier");
-
+			Console.WriteLine("\t2) Create a New Supplier", "yellow");
+			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
 			switch (action)
@@ -33,6 +40,8 @@ public class SupplierRelationsInterface
 					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
 					break;
 			}
+
+			Console.Wait();
 		}
 	}
 

@@ -147,6 +147,18 @@ public class Console
 		}
 	}
 
+	public static void Clear()
+	{
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+	public static void Wait()
+	{
+		Write("Please press enter to continue...");
+		ReadLine();
+	}
+
 	public static void WriteLine()
 	{
 		Write("\n", "");

@@ -5,17 +5,25 @@ public class CustomerInterface
 {
 	public static void Run(Connection conn)
 	{
-		Console.WriteLine("Welcome, supplier relations manager!", "green");
 
 		while (true)
 		{
+			Console.Clear();
+
+			Console.WriteLine();
+			Console.WriteLine("Welcome, supplier relations manager!", "green");
+			Console.WriteLine();
+
 			Console.WriteLine("* * * * * * * * * * *");
 			Console.WriteLine("*   CUSTOMER MENU   *");
 			Console.WriteLine("* * * * * * * * * * *");
 
+			Console.WriteLine();
+
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Search Products");
 			Console.WriteLine("\t2) Contact a Supplier");
+			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
 			switch (action)
@@ -32,6 +40,8 @@ public class CustomerInterface
 					Console.WriteLine("An unexpected error occurred. Returning to customer menu.", "red");
 					break;
 			}
+
+			Console.Wait();
 		}
 	}
 

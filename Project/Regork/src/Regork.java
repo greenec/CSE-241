@@ -42,19 +42,28 @@ public class Regork
 			}
 		}
 
-		Console.WriteLine("Welcome to Regork!", "green");
 
 		while (true)
 		{
+			Console.Clear();
+
+			Console.WriteLine();
+			Console.WriteLine("Welcome to Regork!", "green");
+			Console.WriteLine();
+
 			Console.WriteLine("* * * * * * * * *");
 			Console.WriteLine("*   MAIN MENU   *");
 			Console.WriteLine("* * * * * * * * *");
+
+			Console.WriteLine();
 
 			Console.WriteLine("Please enter the number next to your role from the list below: ");
 			Console.WriteLine("\t1) Regork Product Manager");
 			Console.WriteLine("\t2) Supplier Relations Manager");
 			Console.WriteLine("\t3) Regork Customer");
 			Console.WriteLine("\t4) Outgoing Shipment Manager");
+
+			Console.WriteLine();
 
 			try
 			{
@@ -82,6 +91,7 @@ public class Regork
 						break;
 					default:
 						Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
+						Console.Wait();
 						break;
 				}
 			}
@@ -89,6 +99,7 @@ public class Regork
 			{
 				Console.WriteLine("An unexpected error occurred. Returning to main menu.", "red");
 				Console.WriteLine("If this issue persists, please call Regork support at 1-REG-ORK-SUPT (1-734-675-7878)", "red");
+				Console.Wait();
 			}
 		}
 
