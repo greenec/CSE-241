@@ -1,5 +1,9 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.sql.Date;
 
 public class Console
 {
@@ -53,6 +57,40 @@ public class Console
 			}
 		}
 	}
+
+	public static Date GetDate(String prompt, String color)
+	{
+		while (true)
+		{
+			String sDate = GetString(prompt, color);
+			try
+			{
+				java.util.Date utilDate = new SimpleDateFormat("MM-dd-yyyy").parse(sDate);
+				Date date = new Date(utilDate.getTime());
+
+				Date epoch = new Date(0);
+				if (date.before(epoch))
+				{
+					Console.WriteLine("Please enter a date after January 1st, 1970.", "yellow");
+					continue;
+				}
+
+				Date today = java.sql.Date.valueOf(LocalDate.now());
+				if (date.after(today))
+				{
+					Console.WriteLine("Please enter a date that isn't in the future.", "yellow");
+					continue;
+				}
+
+				return date;
+			}
+			catch (ParseException e)
+			{
+				Console.WriteLine("Please enter a valid date.", "yellow");
+			}
+		}
+	}
+
 
 	public static String GetString(String prompt, String color)
 	{
