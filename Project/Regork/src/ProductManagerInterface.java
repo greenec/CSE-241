@@ -128,16 +128,14 @@ public class ProductManagerInterface
 			}
 			else if (action == 1)
 			{
-				String newName = Console.GetString("Please enter a new product name: ", "blue", 50);
-				product.SetName(newName);
+				product.Name = Console.GetString("Please enter a new product name: ", "blue", 50);
 
 				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(false, true), "yellow");
 			}
 			else if (action == 2)
 			{
 				Console.WriteLine("Note that the price will be stored with 4 decimal places, but only 2 will be shown.", "yellow");
-				double newPrice = Console.GetDouble("Please enter a new Regork sale price: ", "blue", 0.0001, 999999.9999);
-				product.SetPrice(newPrice);
+				product.Price = Console.GetDouble("Please enter a new Regork sale price: ", "blue", 0.0001, 999999.9999);
 
 				Console.WriteLine("Product has changes to be saved. Status is " + product.toString(false, true), "yellow");
 			}
@@ -168,8 +166,8 @@ public class ProductManagerInterface
 		String productName = Console.GetString("Please enter the product name: ", "blue", 50);
 		double productPrice = Console.GetDouble("Please enter the Regork retail price: ", "blue", 0, 999999.9999);
 
-		product.SetName(productName);
-		product.SetPrice(productPrice);
+		product.Name = productName;
+		product.Price = productPrice;
 
 		boolean bCreated = product.Create(conn);
 		if (bCreated)

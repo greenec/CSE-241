@@ -168,12 +168,12 @@ public class CustomerInterface
 					Console.WriteLine(supplier.GetFormattedAddress(), "green");
 					break;
 				case 2:
-					if (supplier.GetPhoneNumbers().size() == 0)
+					if (supplier.PhoneNumbers.size() == 0)
 					{
 						Console.WriteLine("This supplier has no phone numbers in the database!", "yellow");
 					}
 
-					for (String phoneNumber : supplier.GetPhoneNumbers())
+					for (String phoneNumber : supplier.PhoneNumbers)
 					{
 						Console.WriteLine(phoneNumber, "green");
 					}

@@ -1,19 +1,19 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class Supplier
 {
 	private int SupplierId;
-	private String Name = "";
+	public String Name = "";
 	private String StreetName = "";
 	private int StreetNumber = 0;
 	private String City = "";
 	private String State = "";
 	private int ZipCode = 0;
-	private ArrayList<String> PhoneNumbers = new ArrayList<>();
+	public ArrayList<String> PhoneNumbers = new ArrayList<>();
 
 	public Supplier(int supplierId)
 	{
@@ -23,7 +23,7 @@ public class Supplier
 	public Supplier(int supplierId, String name, String streetName, int streetNumber, String city, String state, int zipCode)
 	{
 		this.SupplierId = supplierId;
-		SetName(name);
+		this.Name = name;
 		SetAddress(streetName, streetNumber, city, state, zipCode);
 	}
 
@@ -32,19 +32,41 @@ public class Supplier
 		return this.SupplierId;
 	}
 
-	public String GetName()
-	{
-		return this.Name;
-	}
-
 	public String GetFormattedAddress()
 	{
 		return this.StreetNumber + " " + this.StreetName + "\n" + this.City + ", " + this.State + " " + this.ZipCode;
 	}
 
-	public ArrayList<String> GetPhoneNumbers()
+	public void SetAddress(String streetName, int streetNumber, String city, String state, int zipCode)
 	{
-		return this.PhoneNumbers;
+		this.StreetName = streetName;
+		this.StreetNumber = streetNumber;
+		this.City = city;
+		this.State = state;
+		this.ZipCode = zipCode;
+	}
+
+	public String toString()
+	{
+		return toString(false);
+	}
+
+	public String toString(boolean formatId)
+	{
+		String out = "#";
+
+		if (formatId)
+		{
+			out += String.format("%-4s", this.GetSupplierId());
+		}
+		else
+		{
+			out += this.GetSupplierId();
+		}
+
+		out += " " + this.Name;
+
+		return out;
 	}
 
 	public ArrayList<Shipment> GetShipments(Connection conn)
@@ -128,48 +150,6 @@ public class Supplier
 		return batches;
 	}
 
-	public void SetName(String name)
-	{
-		this.Name = name;
-	}
-
-	public void SetAddress(String streetName, int streetNumber, String city, String state, int zipCode)
-	{
-		this.StreetName = streetName;
-		this.StreetNumber = streetNumber;
-		this.City = city;
-		this.State = state;
-		this.ZipCode = zipCode;
-	}
-
-	public void AddPhoneNumber(String phoneNumber)
-	{
-		this.PhoneNumbers.add(phoneNumber);
-	}
-
-	public String toString()
-	{
-		return toString(false);
-	}
-
-	public String toString(boolean formatId)
-	{
-		String out = "#";
-
-		if (formatId)
-		{
-			out += String.format("%-4s", this.GetSupplierId());
-		}
-		else
-		{
-			out += this.GetSupplierId();
-		}
-
-		out += " " + this.GetName();
-
-		return out;
-	}
-
 	public boolean Refresh(Connection conn)
 	{
 		boolean bSuccess = false;
@@ -190,7 +170,7 @@ public class Supplier
 				String state = res.getString("STATE");
 				int zipCode = res.getInt("ZIPCODE");
 
-				this.SetName(name);
+				this.Name = name;
 				this.SetAddress(streetName, streetNumber, city, state, zipCode);
 
 				// success of a refresh is now contingent on phone numbers being refreshed properly
@@ -301,7 +281,7 @@ public class Supplier
 			String query = "INSERT INTO supplier (supplierId, supplierName, streetNumber, streetName, city, state, zipCode) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, this.GetSupplierId());
-			stmt.setString(2, this.GetName());
+			stmt.setString(2, this.Name);
 			stmt.setInt(3, this.StreetNumber);
 			stmt.setString(4, this.StreetName);
 			stmt.setString(5, this.City);
@@ -348,7 +328,7 @@ public class Supplier
 		{
 			String query = "UPDATE supplier SET supplierName = ?, streetName = ?, streetNumber = ?, city = ?, state = ?, zipCode = ? WHERE supplierId = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, this.GetName());
+			stmt.setString(1, this.Name);
 			stmt.setString(2, this.StreetName);
 			stmt.setInt(3, this.StreetNumber);
 			stmt.setString(4, this.City);

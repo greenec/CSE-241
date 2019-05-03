@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Product
 {
 	private int ProductId;
-	private String Name = "";
-	private double Price = 0;
+	public String Name = "";
+	public double Price = 0;
 
 	public Product(int productId)
 	{
@@ -17,8 +17,8 @@ public class Product
 	public Product(int productId, String productName, double price)
 	{
 		this.ProductId = productId;
-		SetName(productName);
-		SetPrice(price);
+		this.Name = productName;
+		this.Price = price;
 	}
 
 	public int GetProductId()
@@ -26,29 +26,9 @@ public class Product
 		return this.ProductId;
 	}
 
-	public String GetName()
-	{
-		return this.Name;
-	}
-
-	public double GetPrice()
-	{
-		return this.Price;
-	}
-
 	public String GetFormattedPrice()
 	{
 		return String.format("%.2f", this.Price);
-	}
-
-	public void SetPrice(double price)
-	{
-		this.Price = price;
-	}
-
-	public void SetName(String name)
-	{
-		this.Name = name;
 	}
 
 	public String toString()
@@ -74,7 +54,7 @@ public class Product
 			out += this.GetProductId();
 		}
 
-		out += " " + this.GetName();
+		out += " " + this.Name;
 
 		if (showPrice)
 		{
@@ -99,8 +79,8 @@ public class Product
 				String name = res.getString("PRODUCTNAME");
 				double price = res.getDouble("PRICE");
 
-				this.SetName(name);
-				this.SetPrice(price);
+				this.Name = name;
+				this.Price = price;
 
 				bSuccess = true;
 			}
@@ -202,8 +182,8 @@ public class Product
 		{
 			String query = "INSERT INTO productLine (productName, price) VALUES (?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(query, new String[] {"productLineId"});
-			stmt.setString(1, this.GetName());
-			stmt.setDouble(2, this.GetPrice());
+			stmt.setString(1, this.Name);
+			stmt.setDouble(2, this.Price);
 
 			int rowsAffected = stmt.executeUpdate();
 
@@ -257,8 +237,8 @@ public class Product
 		{
 			String query = "UPDATE productLine SET productName = ?, price = ? WHERE productLineId = ?";
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, this.GetName());
-			stmt.setDouble(2, this.GetPrice());
+			stmt.setString(1, this.Name);
+			stmt.setDouble(2, this.Price);
 			stmt.setInt(3, this.GetProductId());
 
 			int rowsAffected = stmt.executeUpdate();

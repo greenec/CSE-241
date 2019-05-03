@@ -3,8 +3,8 @@ import java.util.Date;
 public class Batch
 {
 	private int BatchId;
-	private Product Product;
-	private Date ProcessingDate;
+	public Product Product;
+	public Date ProcessingDate;
 
 	public Batch(int batchId, Product product, Date processingDate)
 	{
@@ -21,10 +21,5 @@ public class Batch
 	public String toString()
 	{
 		return "#" + this.BatchId + " (" + this.ProcessingDate + ")";
-	}
-
-	public Product GetProduct()
-	{
-		return this.Product;
 	}
 }

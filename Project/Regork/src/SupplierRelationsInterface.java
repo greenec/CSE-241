@@ -117,12 +117,12 @@ public class SupplierRelationsInterface
 
 	private static void ListSupplierPhoneNumbers(Supplier supplier)
 	{
-		if (supplier.GetPhoneNumbers().size() == 0)
+		if (supplier.PhoneNumbers.size() == 0)
 		{
 			Console.WriteLine("This supplier has no phone numbers in the database!", "yellow");
 		}
 
-		for (String phoneNumber : supplier.GetPhoneNumbers())
+		for (String phoneNumber : supplier.PhoneNumbers)
 		{
 			Console.WriteLine(phoneNumber, "green");
 		}
@@ -131,7 +131,7 @@ public class SupplierRelationsInterface
 	private static void AddPhoneNumber(Connection conn, Supplier supplier)
 	{
 		String phoneNumber = Console.GetString("Please enter another phone number for this supplier: ", "blue");
-		supplier.AddPhoneNumber(phoneNumber);
+		supplier.PhoneNumbers.add(phoneNumber);
 
 		if(supplier.Save(conn))
 		{
@@ -154,7 +154,7 @@ public class SupplierRelationsInterface
 		String state = Console.GetString("Please enter the new supplier's state: ", "blue", 20);
 		int zipCode = Console.GetInt("Please enter the new supplier's zip code: ", "blue", 0, 99999);
 
-		supplier.SetName(supplierName);
+		supplier.Name = supplierName;
 		supplier.SetAddress(streetName, streetNumber, city, state, zipCode);
 
 		boolean bSaved = supplier.Save(conn);
@@ -181,7 +181,7 @@ public class SupplierRelationsInterface
 		boolean bCreated = supplier.Create(conn);
 		if (bCreated)
 		{
-			supplier.AddPhoneNumber(phoneNumber);
+			supplier.PhoneNumbers.add(phoneNumber);
 			boolean bPhoneAdded = supplier.Save(conn);
 			if (bPhoneAdded)
 			{

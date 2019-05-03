@@ -1,16 +1,16 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class Shipment
 {
 	private int ShipmentId;
-	private Date ShipmentDate;
-	private double UnitPrice;
-	private int Quantity;
-	private ArrayList<Product> Products = new ArrayList<>();
+	public Date ShipmentDate;
+	public double UnitPrice;
+	public int Quantity;
+	public ArrayList<Product> Products = new ArrayList<>();
 
 	public Shipment(int shipmentId, Date shipmentDate, double unitPrice, int quantity)
 	{
@@ -23,16 +23,6 @@ public class Shipment
 	public int GetShipmentId()
 	{
 		return this.ShipmentId;
-	}
-
-	public Date GetShipmentDate()
-	{
-		return this.ShipmentDate;
-	}
-
-	public ArrayList<Product> GetProducts()
-	{
-		return this.Products;
 	}
 
 	public String toString()
@@ -53,7 +43,7 @@ public class Shipment
 			out += this.GetShipmentId();
 		}
 
-		out += " (" + this.GetShipmentDate() + ")";
+		out += " (" + this.ShipmentDate + ")";
 
 		return out;
 	}
@@ -107,7 +97,7 @@ public class Shipment
 			String query = "INSERT INTO shipment (shipmentId, shipmentDate, unitPrice, quantity) VALUES(?, ?, ?, ?)";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, this.GetShipmentId());
-			stmt.setDate(2, this.GetShipmentDate());
+			stmt.setDate(2, this.ShipmentDate);
 			stmt.setDouble(3, this.UnitPrice);
 			stmt.setInt(4, this.Quantity);
 			int rowsAffected = stmt.executeUpdate();

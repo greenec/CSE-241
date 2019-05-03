@@ -1,6 +1,6 @@
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class OutgoingShipmentInterface
 {
@@ -107,7 +107,7 @@ public class OutgoingShipmentInterface
 		for (Shipment shipment : shipments)
 		{
 			Console.WriteLine("\tShipment " + shipment.toString(true));
-			for (Product product : shipment.GetProducts())
+			for (Product product : shipment.Products)
 			{
 				Console.WriteLine("\t\tProduct " + product.toString());
 			}
@@ -126,25 +126,25 @@ public class OutgoingShipmentInterface
 
 		if (batches.isEmpty())
 		{
-			Console.WriteLine(supplier.GetName() + " hasn't manufactured any batches, and therefore cannot ship any product.");
+			Console.WriteLine(supplier.Name + " hasn't manufactured any batches, and therefore cannot ship any product.");
 			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
 			return;
 		}
 
-		Console.WriteLine("Here is a list of batches manufactured by " + supplier.GetName() + ": ");
+		Console.WriteLine("Here is a list of batches manufactured by " + supplier.Name + ": ");
 		ArrayList<Integer> batchIds = new ArrayList<>();
 
 		for (Batch batch : batches)
 		{
 			batchIds.add(batch.GetBatchId());
 			Console.WriteLine("\tBatch " + batch.toString());
-			Console.WriteLine("\t\tContains Product " + batch.GetProduct().toString());
+			Console.WriteLine("\t\tContains Product " + batch.Product.toString());
 		}
 
 		int batchId = Console.GetInt("Please enter the batch ID that you are shipping: ", "blue", 0, 9999);
 		if (!batchIds.contains(batchId))
 		{
-			Console.WriteLine(supplier.GetName() + " didn't manufacture batch " + batchId + ".", "yellow");
+			Console.WriteLine(supplier.Name + " didn't manufacture batch " + batchId + ".", "yellow");
 			Console.WriteLine("Returning to outgoing shipment menu.", "yellow");
 			return;
 		}
