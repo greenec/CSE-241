@@ -57,7 +57,8 @@ public class Supplier
 				"SELECT s.shipmentId, s.shipmentDate, s.unitPrice, s.quantity " +
 					"FROM shipment s " +
 					"INNER JOIN ships sh ON s.shipmentId = sh.shipmentId " +
-					"WHERE sh.supplierId = ?";
+					"WHERE sh.supplierId = ? " +
+					"ORDER BY s.shipmentId";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, this.GetSupplierId());
 			ResultSet res = stmt.executeQuery();
@@ -97,7 +98,8 @@ public class Supplier
 					"INNER JOIN batch b ON m.batchId = b.batchId " +
 					"INNER JOIN madeFrom mf ON b.batchId = mf.batchId " +
 					"INNER JOIN productLine p ON mf.productLineId = p.productLineId " +
-					"WHERE m.supplierId = ?";
+					"WHERE m.supplierId = ? " +
+					"ORDER BY b.batchId";
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, this.GetSupplierId());
 			ResultSet res = stmt.executeQuery();
