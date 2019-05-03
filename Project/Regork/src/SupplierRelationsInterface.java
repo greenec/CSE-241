@@ -149,13 +149,19 @@ public class SupplierRelationsInterface
 		String city = Console.GetString("Please enter the supplier's city: ", "blue", 50);
 		String state = Console.GetString("Please enter the supplier's state: ", "blue", 20);
 		int zipCode = Console.GetInt("Please enter the supplier's zip code: ", "blue", 0, 99999);
+		String phoneNumber = Console.GetString("Please enter a phone number for the supplier: ", "blue", 20);
 
 		Supplier supplier = new Supplier(0, supplierName, streetName, streetNumber, city, state, zipCode);
 
 		boolean bCreated = supplier.Create(conn);
 		if (bCreated)
 		{
-			Console.WriteLine("Product was successfully created! Status is Supplier " + supplier.toString(), "green");
+			supplier.AddPhoneNumber(phoneNumber);
+			boolean bPhoneAdded = supplier.Save(conn);
+			if (bPhoneAdded)
+			{
+				Console.WriteLine("Product was successfully created! Status is Supplier " + supplier.toString(), "green");
+			}
 		}
 	}
 }
