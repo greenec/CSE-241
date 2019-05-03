@@ -22,7 +22,7 @@ public class SupplierRelationsInterface
 
 			Console.WriteLine("Please select an action from the list below:");
 			Console.WriteLine("\t1) Search Suppliers");
-			Console.WriteLine("\t2) Create a New Supplier", "yellow");
+			Console.WriteLine("\t2) Create a New Supplier");
 			Console.WriteLine();
 			int action = Console.GetInt("Please enter a number between 1 and 2, or enter 0 to exit: ", "blue", 0, 2);
 
@@ -34,7 +34,7 @@ public class SupplierRelationsInterface
 					SupplierSearch(conn);
 					break;
 				case 2:
-					Console.WriteLine("This interface has not been implemented yet!", "yellow");
+					CreateSupplier(conn);
 					break;
 				default:
 					Console.WriteLine("An unexpected error occurred. Returning to supplier relation manager's menu.", "red");
@@ -136,6 +136,26 @@ public class SupplierRelationsInterface
 		else
 		{
 			supplier.Refresh(conn);
+		}
+	}
+
+	private static void CreateSupplier(Connection conn)
+	{
+		Console.WriteLine("You are now adding a new supplier.");
+
+		String supplierName = Console.GetString("Please enter the supplier name: ", "blue", 50);
+		String streetName = Console.GetString("Please enter the supplier's street name: ", "blue", 80);
+		int streetNumber = Console.GetInt("Please enter the supplier's street number: ", "blue", 1, 99999999);
+		String city = Console.GetString("Please enter the supplier's city: ", "blue", 50);
+		String state = Console.GetString("Please enter the supplier's state: ", "blue", 20);
+		int zipCode = Console.GetInt("Please enter the supplier's zip code: ", "blue", 0, 99999);
+
+		Supplier supplier = new Supplier(0, supplierName, streetName, streetNumber, city, state, zipCode);
+
+		boolean bCreated = supplier.Create(conn);
+		if (bCreated)
+		{
+			Console.WriteLine("Product was successfully created! Status is Supplier " + supplier.toString(), "green");
 		}
 	}
 }

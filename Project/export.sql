@@ -1,5 +1,5 @@
 --------------------------------------------------------
---  File created - Thursday-May-02-2019   
+--  File created - Friday-May-03-2019   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Table BATCH
@@ -3549,7 +3549,7 @@ Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CIT
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (818,'Hintz LLC',2,'7th','Washington','District of Columbia',20005);
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (835,'Goodwin, Fay and Treutel',8840,'Corscot','Delray Beach','Florida',33448);
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (841,'Roberts-Robel',91,'Rigney','Phoenix','Arizona',85083);
-Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (844,'Renner, Feest and Jacobi',0,'Melby','Long Beach','California',90805);
+Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (844,'Renner, Feest and Jacobi',1,'Melby','Long Beach','California',90805);
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (847,'Mitchell LLC',5675,'Springview','Columbia','South Carolina',29203);
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (852,'Crist-Hyatt',58062,'Nova','Phoenix','Arizona',85099);
 Insert into CRG222.SUPPLIER (SUPPLIERID,SUPPLIERNAME,STREETNUMBER,STREETNAME,CITY,STATE,ZIPCODE) values (856,'Reichert and Sons',2,'Continental','Temple','Texas',76505);

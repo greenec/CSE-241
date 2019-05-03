@@ -245,6 +245,60 @@ public class Supplier
 		return suppliers;
 	}
 
+	public boolean Create(Connection conn)
+	{
+		try
+		{
+			if ((this.SupplierId = GetNextId(conn)) == 0)
+			{
+				Console.WriteLine("There was an error while creating this supplier. Please try again.", "red");
+				return false;
+			}
+
+			String query = "INSERT INTO supplier (supplierId, supplierName, streetNumber, streetName, city, state, zipCode) VALUES (?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, this.GetSupplierId());
+			stmt.setString(2, this.GetName());
+			stmt.setInt(3, this.StreetNumber);
+			stmt.setString(4, this.StreetName);
+			stmt.setString(5, this.City);
+			stmt.setString(6, this.State);
+			stmt.setInt(7, this.ZipCode);
+
+			int rowsAffected = stmt.executeUpdate();
+
+			conn.commit();
+
+			if (rowsAffected == 0)
+			{
+				Console.WriteLine("An error occurred and this supplier was not created.");
+
+				stmt.close();
+				return false;
+			}
+
+			stmt.close();
+			return true;
+		}
+		catch (Exception e)
+		{
+			try
+			{
+				conn.rollback();
+			}
+			catch (Exception rollbackException)
+			{
+				Console.WriteLine("An error occurred while attempting to revert changes.", "red");
+				return false;
+			}
+
+			e.printStackTrace();
+
+			Console.WriteLine("An error occurred while trying to create this supplier. Please try again.", "red");
+			return false;
+		}
+	}
+
 	public boolean Save(Connection conn)
 	{
 		try
@@ -296,6 +350,24 @@ public class Supplier
 			Console.WriteLine("The supplier has not been modified. Please try again.", "red");
 			return false;
 		}
+	}
+
+	private static int GetNextId(Connection conn)
+	{
+		try
+		{
+			PreparedStatement stmt = conn.prepareStatement("SELECT MAX(supplierId) + 1 FROM supplier");
+			ResultSet res = stmt.executeQuery();
+			if (res.next())
+			{
+				return res.getInt(1);
+			}
+		}
+		catch (Exception e)
+		{
+			return 0;
+		}
+		return 0;
 	}
 
 	private boolean SavePhoneNumbers(Connection conn)
